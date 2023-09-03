@@ -105,6 +105,7 @@ async def cb_autodel(_, callback_query: CallbackQuery):
   id = callback_query.message.chat.id
   user = callback_query.message.from_user.id
   uid = callback_query.from_user.id
+  print(f"msg user id :{user}\nCB user id: {uid}")
   data = callback_query.data
   if uid == user:
     if data == "do_true":
