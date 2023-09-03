@@ -84,8 +84,8 @@ async def search(bot, message):
       message_id = msg.id
       if veri['auto_del'] == True:
         await save_dlt_message(chat_id, _time, message_id)
-      except FloodWait as e:
-        print(e)
+    except FloodWait as e:
+      print(e)
       
   else:
       xx = await message.reply("No Results Found 🔎")
