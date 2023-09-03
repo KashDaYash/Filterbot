@@ -79,10 +79,10 @@ async def cb_help(_, callback_query: CallbackQuery):
     await callback_query.message.edit(PLAN_USD, reply_markup=BTN_2)           
 @bot.on_message(filters.command("autodel"))
 async def auto_del_handler(_, m):
-  chat_id = m.chat.id
+  id = m.chat.id
   if m.chat.type == enums.ChatType.PRIVATE:
     return await m.reply("Please Use In Group Chat")
-  group = await get_group(chat_id)
+  group = await get_group(id)
   user_id = group['user_id']
   auto_dele = group['auto_del']
   if m.from_user.id == user_id:
