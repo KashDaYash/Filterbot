@@ -55,12 +55,12 @@ async def search_messages(chat_id, query):
 
 @Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id"]))
 async def search(bot, message):
-  chat_id = message.chat.id
+  
   star = time.time()
   f_sub = await force_sub(bot, message)
   if f_sub == False:
       return
-  veri = await get_group(chat_id)
+  veri = await get_group(message.chat.id)
   verified = veri["verified"]
   if verified == False:
     return
@@ -83,7 +83,7 @@ async def search(bot, message):
     try:
       message_id = msg.id
       if veri['auto_del'] == True:
-        await save_dlt_message(chat_id, _time, message_id)
+        await save_dlt_message(message.chat.id, _time, message_id)
     except FloodWait as e:
       print(e)
       
