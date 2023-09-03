@@ -84,17 +84,16 @@ async def auto_del_handler(_, m):
     return await m.reply("Please Use In Group Chat")
   group = await get_group(chat_id)
   user_id = group['user_id']
-  print(user_id)
   auto_dele = group['auto_del']
   if m.from_user.id == user_id:
     t_text = "This Time Auto-Delete Is **OFF** Click On Button And Set **ON**"
     f_text = "This Time Auto-Delete Is **ON** Click Off Button And Set **OFF**"
     
     T_BUTTON = InlineKeyboardMarkup([[
-  InlineKeyboardButton("ON",callback_data ="do_true")
+  InlineKeyboardButton("ON",callback_data =f"do_true:{user_id}")
   ]])
     F_BUTTON = InlineKeyboardMarkup([[
-  InlineKeyboardButton("OFF",callback_data ="do_false")
+  InlineKeyboardButton("OFF",callback_data =f"do_false:{user_id}")
   ]])
     if auto_dele == False:
       await m.reply(t_text,reply_markup=T_BUTTON)
@@ -103,11 +102,11 @@ async def auto_del_handler(_, m):
     
 @bot.on_callback_query()
 async def cb_autodel(_, callback_query: CallbackQuery):
+  user = callback_query.data.split(":",1)[1]
   id = callback_query.message.chat.id
-  user = callback_query.message.from_user.id
   uid = callback_query.from_user.id
   print(f"msg user id :{user}\nCB user id: {uid}")
-  data = callback_query.data
+  data = callback_query.data.split(":",1)[0]
   if uid == user:
     if data == "do_true":
       await update_group(id, {"auto_del": True})
