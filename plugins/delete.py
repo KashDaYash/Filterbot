@@ -84,6 +84,7 @@ async def auto_del_handler(_, m):
     return await m.reply("Please Use In Group Chat")
   group = await get_group(chat_id)
   user_id = group['user_id']
+  print(user_id)
   auto_dele = group['auto_del']
   if m.from_user.id == user_id:
     t_text = "This Time Auto-Delete Is **OFF** Click On Button And Set **ON**"
