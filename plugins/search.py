@@ -27,6 +27,7 @@ cache = TTLCache(maxsize=100, ttl=300)
 
 # Your other code...
 
+# Modify the search_messages function
 async def search_messages(chat_id, query):
   cache_key = f"{chat_id}:{query}"
   cached_results = cache.get(cache_key)
@@ -34,24 +35,26 @@ async def search_messages(chat_id, query):
   if cached_results:
     return cached_results  # Return cached results if available
 
-    try:
-      results = ""
-      messages = []
-      async for msg in YaaraOP.search_messages(int(chat_id), query=query, limit=8):
+  try:
+    results = ""
+    messages = []
+    async for msg in YaaraOP.search_messages(int(chat_id), query=query, limit=8):
         messages.append(msg)
 
-      for msg in messages:
-        if msg.caption or msg.text:
-          name = (msg.text or msg.caption).split("\n")[0]
-          result_entry = f"{name}\n {msg.link}\n\n"
-          results += result_entry
+    for msg in messages:
+      if msg.caption or msg.text:
+        name = (msg.text or msg.caption).split("\n")[0]
+        result_entry = f"{name}\n {msg.link}\n\n"
+        results += result_entry
 
         # Store the results in cache
-      cache[cache_key] = results
+    cache[cache_key] = results
 
-      return results
-    except Exception as e:
-      print(f"Error searching messages: {str(e)}")
+    return results
+  except Exception as e:
+    print(f"Error searching messages: {str(e)}")
+    return ""  # Return an empty string on error
+
 
 @Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id"]))
 async def search(bot, message):
