@@ -34,6 +34,10 @@ async def update_group(id, new_data):
     data = {"_id": id}
     new_value = {"$set": new_data}
     await grp_col.update_many(data, new_value)
+async def update_del(id, new_data):
+    data = {"_id": id}
+    new_value = {"$set": new_data}
+    await grp_col.update_one(data, new_value)
   
 async def delete_group(id):
     data = {"_id":id}

@@ -90,11 +90,11 @@ async def auto_del_handler(_, m):
     f_text = "Auto-Delete System **OFF**"
   if auto_dele == False:
     new_data = {"auto_del": True}
-    await update_group(id, new_data)
+    await update_del(id, new_data)
     await m.reply(t_text)
   elif auto_dele == True:
     new_data = {"auto_del": False}
-    await update_group(id, new_data)
+    await update_del(id, new_data)
     await m.reply(f_text)
     
 
