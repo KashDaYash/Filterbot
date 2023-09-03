@@ -86,35 +86,15 @@ async def auto_del_handler(_, m):
   user_id = group['user_id']
   auto_dele = group['auto_del']
   if m.from_user.id == user_id:
-    t_text = "This Time Auto-Delete Is **OFF** Click On Button And Set **ON**"
-    f_text = "This Time Auto-Delete Is **ON** Click Off Button And Set **OFF**"
+    t_text = "Auto-Delete System **ON**"
+    f_text = "Auto-Delete System **OFF**"
+  if auto_dele == False:
+    await update_group(id, {"auto_del": True})
+    await m.reply(t_text)
+  elif auto_dele == True:
+    await update_group(id, {"auto_del": False})
+    await m.reply(f_text)
     
-    T_BUTTON = InlineKeyboardMarkup([[
-  InlineKeyboardButton("ON",callback_data =f"do_true:{user_id}")
-  ]])
-    F_BUTTON = InlineKeyboardMarkup([[
-  InlineKeyboardButton("OFF",callback_data =f"do_false:{user_id}")
-  ]])
-    if auto_dele == False:
-      await m.reply(t_text,reply_markup=T_BUTTON)
-    elif auto_dele == True:
-      await m.reply(f_text,reply_markup=F_BUTTON)
-    
-@bot.on_callback_query()
-async def cb_autodel(_, callback_query: CallbackQuery):
-  user = callback_query.data.split(":",1)[1]
-  id = callback_query.message.chat.id
-  uid = callback_query.from_user.id
-  print(f"msg user id :{user}\nCB user id: {uid}")
-  data = callback_query.data.split(":",1)[0]
-  if uid == user:
-    if data == "do_true":
-      await update_group(id, {"auto_del": True})
-      await callback_query.message.edit("This Chat Auto Delete Message **ON**")
-    elif data == "do_false": 
-      await update_group(id, {"auto_del": False})
-      await callback_query.message.edit("This Chat Auto Delete Message **OFF**")
-
 
 bot.start()
 asyncio.create_task(run_check_up())
