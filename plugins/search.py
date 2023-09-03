@@ -7,6 +7,7 @@ from config import *
 from pyrogram import *
 from pyrogram.errors import FloodWait
 import time
+from cachetools import TTLCache
 
 MESSAGE_LENGTH = 4096
 
@@ -22,6 +23,35 @@ async def clean_query(query):
     cleaned_words = [word for word in words if not await should_ignore(word)]
     return " ".join(cleaned_words)
 
+cache = TTLCache(maxsize=100, ttl=300)
+
+# Your other code...
+
+async def search_messages(chat_id, query):
+  cache_key = f"{chat_id}:{query}"
+  cached_results = cache.get(cache_key)
+
+  if cached_results:
+    return cached_results  # Return cached results if available
+
+    try:
+      results = ""
+      messages = []
+      async for msg in YaaraOP.search_messages(int(chat_id), query=query, limit=8):
+        messages.append(msg)
+
+      for msg in messages:
+        if msg.caption or msg.text:
+          name = (msg.text or msg.caption).split("\n")[0]
+          result_entry = f"{name}\n {msg.link}\n\n"
+          results += result_entry
+
+        # Store the results in cache
+      cache[cache_key] = results
+
+      return results
+    except Exception as e:
+      print(f"Error searching messages: {str(e)}")
 
 @Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id"]))
 async def search(bot, message):
@@ -40,47 +70,22 @@ async def search(bot, message):
   if message.text.startswith("/"):
       return
   query = await clean_query(message.text)
-  max_unique_results = 5
-  unique_results = set() 
-  results = ""
-  quri = query.split()
-  for chk in channels:
-    async for msg in YaaraOP.search_messages(int(chk), query=query, limit=8):
-      if msg.caption or msg.text:
-        name = (msg.text or msg.caption).split("\n")[0]
-        result_entry = f"{name}\n {msg.link}\n\n"
-        if not result_entry in unique_results: 
-          if len(unique_results) >= max_unique_results:
-            break
-          else:
-            unique_results.add(result_entry)
-            results += result_entry
-  
-  for kashdayash in channels:
-    for omk in quri:
-      async for msg in YaaraOP.search_messages(int(kashdayash), query=omk, limit=8):
-        if msg.caption or msg.text:
-          name = (msg.text or msg.caption).split("\n")[0]
-          result_entry = f"{name}\n {msg.link}\n\n"
-          if not result_entry in unique_results:
-            if len(unique_results) >= max_unique_results:
-              break
-            else:
-              unique_results.add(result_entry)
-              results += result_entry 
-    
+  tasks = [search_messages(channels, query) for channels in chat_ids]
+  search_results = await asyncio.gather(*tasks)
+  results = "".join(search_results) 
+              
   if results:
-          end = time.time()
-          omk = end - star
-          timee = f"Result Searched in {omk:.2f} sec"  
-          msg = await message.reply(f" {results} {timee}", disable_web_page_preview=True)
-          _time = int(time.time()) + (5 * 60)
-          try:
-            message_id = msg.id
-            if veri['auto_del'] == True:
-              await save_dlt_message(chat_id, _time, message_id)
-          except FloodWait as e:
-            print(e)
+    end = time.time()
+    omk = end - star
+    timee = f"Result Searched in {omk:.2f} sec"
+    msg = await message.reply(f" {results} {timee}", disable_web_page_preview=True)
+    _time = int(time.time()) + (5 * 60)
+    try:
+      message_id = msg.id
+      if veri['auto_del'] == True:
+        await save_dlt_message(chat_id, _time, message_id)
+      except FloodWait as e:
+        print(e)
       
   else:
       xx = await message.reply("No Results Found 🔎")
