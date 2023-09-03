@@ -40,7 +40,7 @@ async def search(bot, message):
   if message.text.startswith("/"):
       return
   query = await clean_query(message.text)
-  max_unique_results = 8
+  max_unique_results = 5
   unique_results = set() 
   results = ""
   quri = query.split()
