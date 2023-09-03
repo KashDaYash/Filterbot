@@ -70,7 +70,7 @@ async def search(bot, message):
   if message.text.startswith("/"):
       return
   query = await clean_query(message.text)
-  tasks = [search_messages(channels, query) for channels in chat_ids]
+  tasks = [search_messages(chat_id , query) for chat_id in channels]
   search_results = await asyncio.gather(*tasks)
   results = "".join(search_results) 
               
