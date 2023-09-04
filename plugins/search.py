@@ -76,33 +76,36 @@ async def search(bot, message):
   query_words = query.split()  # Split the query into words
   max_results = 6
   results = []
+  added_results = set()  # To keep track of added results
 
   for word in query_words:
-      tasks = [search_messages(chat_id, word) for chat_id in channels]
-      search_results = await asyncio.gather(*tasks)
-      for result in search_results:
-          if result:
-              results.append(result)
-              if len(results) >= max_results:
-                  break
+    tasks = [search_messages(chat_id, word) for chat_id in channels]
+    search_results = await asyncio.gather(*tasks)
+    for result in search_results:
+      if result and result not in added_results:
+        added_results.add(result)  # Add the result to the set
+        results.append(result)
+        if len(results) >= max_results:
+          break
 
   if results:
       end = time.time()
       omk = end - star
       timee = f"Result Searched in {omk:.2f} sec"
       combined_results = "".join(results)
-      msg = await message.reply(f"Here are the results 👇\n{combined_results} {timee}", disable_web_page_preview=True)
+      msg = await message.reply(f" {combined_results} {timee}", disable_web_page_preview=True)
       _time = int(time.time()) + (5 * 60)
       try:
-          message_id = msg.id
-          if veri['auto_del'] == True:
-              await save_dlt_message(message.chat.id, _time, message_id)
+        message_id = msg.id
+        if veri['auto_del'] == True:
+        await save_dlt_message(message.chat.id, _time, message_id)
       except FloodWait as e:
-          print(e)
+        print(e)
   else:
-      xx = await message.reply("No Results Found 🔎")
-      await asyncio.sleep(20)
-      await xx.delete()
+    xx = await message.reply("No Results Found 🔎")
+    await asyncio.sleep(20)
+    await xx.delete()
+
 
       
       
