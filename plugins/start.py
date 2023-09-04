@@ -1,4 +1,4 @@
-from bot import Client
+from main import Client
 from db import *
 from config import *
 from pyrogram import *

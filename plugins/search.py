@@ -1,7 +1,7 @@
 import asyncio
 from time import time
 from datetime import datetime, timedelta 
-from bot import Client, YaaraOP
+from main import Client, YaaraOP
 from db import *
 from config import *
 from pyrogram import *

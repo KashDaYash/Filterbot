@@ -2,7 +2,7 @@ from config import *
 from db import *
 from pyrogram import *
 from pyrogram.types import *
-from bot import Client
+from main import Client
 
 @Client.on_message(filters.group & filters.command("forcesub"))
 async def f_sub_cmd(bot, message):
