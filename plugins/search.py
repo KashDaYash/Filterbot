@@ -93,7 +93,7 @@ async def search(bot, message):
       omk = end - star
       timee = f"Result Searched in {omk:.2f} sec"
       combined_results = "".join(results)
-      msg = await message.reply(f" {combined_results} {timee}", disable_web_page_preview=True)
+      msg = await message.reply(f"Here are the results 👇\n{combined_results} {timee}", disable_web_page_preview=True)
       _time = int(time.time()) + (5 * 60)
       try:
         message_id = msg.id
