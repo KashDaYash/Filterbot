@@ -58,7 +58,6 @@ async def search_messages(chat_id, query):
 
 @Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id"]))
 async def search(bot, message):
-  
   star = time.time()
   f_sub = await force_sub(bot, message)
   if f_sub == False:
@@ -66,33 +65,44 @@ async def search(bot, message):
   veri = await get_group(message.chat.id)
   verified = veri["verified"]
   if verified == False:
-    return
-  channels = veri["channels"]
+      return
+  channels = veri['channels']
   if not channels:
       return
   if message.text.startswith("/"):
       return
+
   query = await clean_query(message.text)
-  tasks = [search_messages(chat_id , query) for chat_id in channels]
-  search_results = await asyncio.gather(*tasks)
-  results = "".join(search_results) 
-              
+  query_words = query.split()  # Split the query into words
+  max_results = 6
+  results = []
+
+  for word in query_words:
+      tasks = [search_messages(chat_id, word) for chat_id in channels]
+      search_results = await asyncio.gather(*tasks)
+      for result in search_results:
+          if result:
+              results.append(result)
+              if len(results) >= max_results:
+                  break
+
   if results:
-    end = time.time()
-    omk = end - star
-    timee = f"Result Searched in {omk:.2f} sec"
-    msg = await message.reply(f" {results} {timee}", disable_web_page_preview=True)
-    _time = int(time.time()) + (5 * 60)
-    try:
-      message_id = msg.id
-      if veri['auto_del'] == True:
-        await save_dlt_message(message.chat.id, _time, message_id)
-    except FloodWait as e:
-      print(e)
-      
+      end = time.time()
+      omk = end - star
+      timee = f"Result Searched in {omk:.2f} sec"
+      combined_results = "".join(results)
+      msg = await message.reply(f"Here are the results 👇 \n{combined_results}\n{timee}", disable_web_page_preview=True)
+      _time = int(time.time()) + (5 * 60)
+      try:
+          message_id = msg.id
+          if veri['auto_del'] == True:
+              await save_dlt_message(message.chat.id, _time, message_id)
+      except FloodWait as e:
+          print(e)
   else:
       xx = await message.reply("No Results Found 🔎")
       await asyncio.sleep(20)
       await xx.delete()
+
       
       
