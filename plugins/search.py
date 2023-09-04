@@ -98,7 +98,7 @@ async def search(bot, message):
       try:
         message_id = msg.id
         if veri['auto_del'] == True:
-        await save_dlt_message(message.chat.id, _time, message_id)
+          await save_dlt_message(message.chat.id, _time, message_id)
       except FloodWait as e:
         print(e)
   else:
