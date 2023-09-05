@@ -48,3 +48,8 @@ class Bot(Client):
 
     def run_in_executor(self, fn, *args, **kwargs):
       return self.executor.submit(fn, *args, **kwargs)
+
+Bot().run()
+idle()
+      
+      
