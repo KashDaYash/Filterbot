@@ -33,7 +33,7 @@ class Bot(Client):
             plugins={"root": "plugins"}
         )
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed
-        self.add_event_handler(self.on_disconnect)
+        self.add_handler(on_disconnect)
     async def on_disconnect(self, _, __):
       LOGGER.warning("Disconnected. Attempting to reconnect...")
       while True:
