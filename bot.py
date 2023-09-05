@@ -52,7 +52,7 @@ def run_in_executor(fn, *args, **kwargs):
 
   
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(start_bot())
+    asyncio.get_event_loop().run_until_complete(start())
     Bot().run()
     try:
         # Your bot's logic can go here
