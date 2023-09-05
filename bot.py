@@ -1,8 +1,8 @@
 import logging
 import concurrent.futures
 from pyrogram import Client
-from config import *
-import asyncio
+from config import SESSION, API_ID, API_HASH, BOT_TOKEN
+import asyncio 
 
 # Initialize logging
 FORMAT = "[%(asctime)s] [%(levelname)s] [%(name)s] %(message)s"
@@ -14,48 +14,37 @@ logging.basicConfig(
 )
 LOGGER = logging.getLogger(__name__)
 
+# Initialize clients
 YaaraOP = Client(name="user_session", session_string=SESSION)
-# Initialize the Pyrogram clients
-def __init__(self):
-  super().__init__(
-    "bot_session",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=BOT_TOKEN,
-    plugins={"root": "plugins"}
-  )
 
 
-        # Define the executor
-  executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed
+class Bot(Client):
+    def __init__(self):
+        super().__init__(
+            "bot_session",
+            api_id=API_ID,
+            api_hash=API_HASH,
+            bot_token=BOT_TOKEN,
+            plugins={"root": "plugins"}
+        )
+        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed 
 
-async def start_bot(self):
-  try:
-    await super().start()
-    await YaaraOP.start()
-    await YaaraOP.send_message("me", 'chtuiteg')  # Start the User client
-    LOGGER.info("Bot Started ⚡")
-  except Exception as e:
-    LOGGER.exception("Error while starting bot: %s", str(e))
+    async def start(self):
+      try:
+        await super().start()
+        await YaaraOP.start()
+        await YaaraOP.send_message("me", 'chtuiteg')  # Start the User client
+        LOGGER.info("Bot Started ⚡")
+      except Exception as e:
+        LOGGER.exception("Error while starting bot: %s", str(e))
 
-async def stop_bot(self, *args):
-  try:
-    await super().stop()
-    await YaaraOP.stop()  # Stop the User client
-    LOGGER.info("Bot Stopped")
-  except Exception as e:
-    LOGGER.exception("Error while stopping bot: %s", str(e))
+    async def stop(self, *args):
+      try:
+        await super().stop()
+        await YaaraOP.stop()  # Stop the User client
+        LOGGER.info("Bot Stopped")
+      except Exception as e:
+        LOGGER.exception("Error while stopping bot: %s", str(e))
 
-def run_in_executor(fn, *args, **kwargs):
-    return executor.submit(fn, *args, **kwargs)
-
-  
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(start_bot(self))
-    try:
-        # Your bot's logic can go here
-        pass
-    except KeyboardInterrupt:
-        pass
-    finally:
-        asyncio.get_event_loop().run_until_complete(stop_bot(self, *args))
+    def run_in_executor(self, fn, *args, **kwargs):
+      return self.executor.submit(fn, *args, **kwargs)
