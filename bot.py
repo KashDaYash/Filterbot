@@ -39,9 +39,9 @@ class Bot(Client):
         await super().start()
         await YaaraOP.start()
         await YaaraOP.send_message("me", 'chtuiteg')  # Start the User client
-          LOGGER.info("Bot Started ⚡")
+        LOGGER.info("Bot Started ⚡")
       except Exception as e:
-          LOGGER.exception("Error while starting bot: %s", str(e))
+        LOGGER.exception("Error while starting bot: %s", str(e))
 
     async def stop(self, *args):
       try:
