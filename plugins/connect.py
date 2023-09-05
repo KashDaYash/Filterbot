@@ -1,4 +1,4 @@
-from main import Client, YaaraOP
+from bot import Client, YaaraOP
 from db import *
 from config import *
 from pyrogram import *
