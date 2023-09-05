@@ -32,21 +32,8 @@ class Bot(Client):
             bot_token=BOT_TOKEN,
             plugins={"root": "plugins"}
         )
-        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed
-        self.add_handler(on_disconnect)
-    async def on_disconnect(self, _, __):
-      LOGGER.warning("Disconnected. Attempting to reconnect...")
-      while True:
-        try:
-          await self.start()
-          await self.send_message("me", "Bot reconnected successfully.")
-          LOGGER.info("Reconnected successfully.")
-          break
-        except Exception as e:
-          LOGGER.warning("Reconnection failed. Retrying...")
-          await asyncio.sleep(5)  # Wait for a few seconds before retrying
+        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed 
 
-    
     async def start(self):
       try:
         await super().start()
