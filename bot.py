@@ -30,7 +30,7 @@ executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_wo
 
 async def start_bot():
     try:
-        await bot_app.start()
+        await Client.start()
         await YaaraOP.start()
         await YaaraOP.send_message("me", 'chtuiteg')  # Start the User client
         LOGGER.info("Bot Started ⚡")
@@ -39,7 +39,7 @@ async def start_bot():
 
 async def stop_bot():
     try:
-        await bot_app.stop()
+        await Client.stop()
         await YaaraOP.stop()
         LOGGER.info("Bot Stopped")
     except Exception as e:
