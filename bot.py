@@ -47,9 +47,9 @@ class Bot(Client):
       try:
         await super().stop()
         await YaaraOP.stop()  # Stop the User client
-          LOGGER.info("Bot Stopped")
+        LOGGER.info("Bot Stopped")
       except Exception as e:
-          LOGGER.exception("Error while stopping bot: %s", str(e))
+        LOGGER.exception("Error while stopping bot: %s", str(e))
 
     def run_in_executor(self, fn, *args, **kwargs):
       return self.executor.submit(fn, *args, **kwargs)
