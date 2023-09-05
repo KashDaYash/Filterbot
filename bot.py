@@ -27,7 +27,7 @@ def __init__(self):
 
 
         # Define the executor
-        executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed
+  executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed
 
 async def start_bot(self):
   try:
