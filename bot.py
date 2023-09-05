@@ -1,7 +1,7 @@
 import logging
 import concurrent.futures
 from pyrogram import Client
-from config import SESSION, API_ID, API_HASH, BOT_TOKEN
+from config import *
 import asyncio
 
 # Initialize logging
