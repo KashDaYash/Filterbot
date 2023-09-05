@@ -41,7 +41,7 @@ class Bot(Client):
           await self.start()
           await self.send_message("me", "Bot reconnected successfully.")
           LOGGER.info("Reconnected successfully.")
-            break
+          break
         except Exception as e:
           LOGGER.warning("Reconnection failed. Retrying...")
           await asyncio.sleep(5)  # Wait for a few seconds before retrying
