@@ -1,5 +1,6 @@
 from bot import Bot
 from pyrogram import idle
+import asyncio 
 
 bot = Bot()
 
