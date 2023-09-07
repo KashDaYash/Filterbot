@@ -1,5 +1,8 @@
 from bot import Bot
 
-
-Bot().run()
-idle()
+async def main():
+  bot = Bot()
+  bot.run()
+  idle()
+  
+main()
