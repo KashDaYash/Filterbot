@@ -1,5 +1,4 @@
 import logging
-import concurrent.futures
 from pyrogram import Client
 from config import SESSION, API_ID, API_HASH, BOT_TOKEN
 import asyncio 
@@ -15,7 +14,7 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 
 # Initialize clients
-YaaraOP = Client(name="user_session", session_string=SESSION)
+YaaraOP = Client(name="user_session", session_string=SESSION, workers=3)
 
 
 class Bot(Client):
@@ -25,15 +24,15 @@ class Bot(Client):
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=BOT_TOKEN,
-            plugins={"root": "plugins"}
+            plugins={"root": "plugins"},
+            workers=5
         )
-        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)  # Adjust max_workers as needed 
 
     async def start(self):
       try:
         await super().start()
         await YaaraOP.start()
-        await YaaraOP.send_message("me", 'chtuiteg')  # Start the User client
+        await YaaraOP.send_message("me", '@YaaraOP')  # Start the User client
         LOGGER.info("Bot Started ⚡")
       except Exception as e:
         LOGGER.exception("Error while starting bot: %s", str(e))
@@ -45,8 +44,5 @@ class Bot(Client):
         LOGGER.info("Bot Stopped")
       except Exception as e:
         LOGGER.exception("Error while stopping bot: %s", str(e))
-
-    def run_in_executor(self, fn, *args, **kwargs):
-      return self.executor.submit(fn, *args, **kwargs)
 
   
