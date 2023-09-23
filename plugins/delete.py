@@ -97,7 +97,5 @@ async def auto_del_handler(_, m):
     await update_del(id, new_data)
     await m.reply(f_text)
     
-
-bot.start()
 asyncio.create_task(run_check_up())
 
