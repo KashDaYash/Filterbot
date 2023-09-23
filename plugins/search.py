@@ -56,7 +56,7 @@ async def search_messages(chat_id, query):
     return ""  # Return an empty string on error
 
 
-@Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id"]))
+@Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id", "autodel"]))
 async def search(bot, message):
   star = time.time()
   f_sub = await force_sub(bot, message)
