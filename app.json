@@ -5,36 +5,42 @@
   "env": {
     "API_ID": {
       "description": "The API ID of your Telegram app.",
+      "value": "",
       "required": true
     },
     "API_HASH": {
       "description": "The API hash of your Telegram app.",
+      "value": "",
       "required": true
     },
     "BOT_TOKEN": {
       "description": "The token of your Telegram bot.",
+      "value": "",
       "required": true
     },
     "OWNER": {
       "description": "The username of your Account .",
+      "value": "",
       "required": true
     },
     "OWNER_ID": {
       "description": "The Owner id int of your Telegram bot.",
-      "value": 1791227679
+      "value": "1791227679",
       "required": true
      },
     "DATABASE_URI": {
       "description": "The database string of mongodb ",
-      "value": ""
+      "value": "",
       "required": true
     },
     "LOG_CHANNEL": {
       "description": "The chat ID of the chat you want to send notifications to.",
+      "value": "",
       "required": true
     },
     "SESSION": {
-      "description": "The Pyrogram Session For Assistant Bot For Searching messages",
+      "description": "The Pyrogram Session For Assistant Bot For arching messages",
+      "value": "",
       "required": true
    }
   },
