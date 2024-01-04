@@ -48,6 +48,25 @@ async def search_messages(chat_id, query):
         print(f"Error searching messages: {str(e)}")
         return ""
 
+async def search_channel_chunk(channels, query):
+    max_results = 6
+    results = []
+    added_results = set()
+
+    tasks = [search_messages(chat_id, query) for chat_id in channels]
+
+    search_results = await asyncio.gather(*tasks)
+
+    for result in search_results:
+        if result and result not in added_results:
+            added_results.add(result)
+            results.append(result)
+
+            if len(results) >= max_results:
+                break
+
+    return results
+
 @Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id", "autodel"]))
 async def search(bot, message):
     star = time()
@@ -76,17 +95,25 @@ async def search(bot, message):
     results = []
     added_results = set()
 
+    # Divide channels into chunks (adjust chunk size as needed)
+    chunk_size = 5
+    channel_chunks = [channels[i:i + chunk_size] for i in range(0, len(channels), chunk_size)]
+
     # Create a list to store all tasks
     tasks = []
 
-    for word in query_words:
+    for chunk in channel_chunks:
         # Append each search task to the list
-        tasks.extend([search_messages(chat_id, word) for chat_id in channels])
+        tasks.append(search_channel_chunk(chunk, query))
 
     # Gather all tasks asynchronously
-    search_results = await asyncio.gather(*tasks)
+    chunked_results = await asyncio.gather(*tasks)
 
-    for result in search_results:
+    # Flatten the list of lists
+    chunked_results = [result for chunk_results in chunked_results for result in chunk_results]
+
+    # Deduplicate and limit results
+    for result in chunked_results:
         if result and result not in added_results:
             added_results.add(result)
             results.append(result)
@@ -113,4 +140,3 @@ async def search(bot, message):
         xx = await message.reply("No Results Found 🔎")
         await asyncio.sleep(20)
         await xx.delete()
-
