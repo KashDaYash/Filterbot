@@ -3,7 +3,7 @@ from db import *
 from config import *
 from pyrogram import *
 from pyrogram.types import *
-
+import time 
 
 
 @bot.on_message(filters.command("info"))
@@ -14,10 +14,11 @@ async def info_handle(_, m):
   id = m.from_user.id 
   dexa = await get_group(chat_id)
   plan = dexa["plan"]
+  stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
   name = m.from_user.mention
     
-  if plan != "":
-    await m.reply(f"This Chat Subscription till {plan}")
+  if plan:
+    await m.reply(f"This Chat Subscription till {stamp}")
   else:
     BUTTON = InlineKeyboardMarkup([[
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
