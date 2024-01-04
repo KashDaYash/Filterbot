@@ -45,4 +45,7 @@ class Bot(Client):
       except Exception as e:
         LOGGER.exception("Error while stopping bot: %s", str(e))
 
-  
+if __name__ == "__main__":
+    bot = Bot()
+    bot.run()
+    idle()
