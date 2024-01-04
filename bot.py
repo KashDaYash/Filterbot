@@ -1,5 +1,5 @@
 import logging
-from pyrogram import Client
+from pyrogram import Client, idle 
 from config import SESSION, API_ID, API_HASH, BOT_TOKEN
 import asyncio 
 

@@ -1,7 +1,7 @@
 import asyncio
 from config import *
 from bot import Client
-from pyrogram import enums, idle 
+from pyrogram import enums
 from pymongo.errors import DuplicateKeyError
 from pyrogram.errors import UserNotParticipant
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
