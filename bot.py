@@ -1,6 +1,6 @@
 import logging
 from pyrogram import Client, idle 
-from config import SESSION, API_ID, API_HASH, BOT_TOKEN
+from config import SESSION, API_ID, API_HASH, BOT_TOKEN, LOG_CHANNEL 
 import asyncio 
 
 # Initialize logging
@@ -32,6 +32,7 @@ class Bot(Client):
       try:
         await super().start()
         await YaaraOP.start()
+        await super().send_message(LOG_CHANNEL, "STARTED 💥 ")
         await YaaraOP.send_message("me", '@YaaraOP')  # Start the User client
         LOGGER.info("Bot Started ⚡")
       except Exception as e:
