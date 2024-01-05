@@ -54,7 +54,8 @@ async def get_group(id):
     group = await grp_col.find_one(data)
     if group:
         return dict(group)
-    else None
+    else:
+        None
     
 async def add_user(id, name):
     data = {"_id":id, "name":name}
