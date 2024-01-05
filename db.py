@@ -52,7 +52,9 @@ async def check_plan(id):
 async def get_group(id):
     data = {'_id':id}
     group = await grp_col.find_one(data)
-    return dict(group)
+    if group:
+        return dict(group)
+    else None
     
 async def add_user(id, name):
     data = {"_id":id, "name":name}

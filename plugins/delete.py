@@ -39,12 +39,11 @@ async def check_plan(bot):
             await bot.send_message(OWNER_ID, f"Got error in Related Subscription Expired {e}\nUser : {data['user_name']}\nUser ID : {data['user_id']}\nChat ID :{data['_id']}\n")
     
 async def run_check_up():
-    async with bot: 
         while True:  
            await check_up(bot)
+           asyncio.sleep(1)
            
 async def run_check_plan():
-    async with bot: 
         while True:  
            await check_plan(bot)
            asyncio.sleep(21600)
