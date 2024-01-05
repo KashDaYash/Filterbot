@@ -6,6 +6,8 @@ from pyrogram.types import *
 
 @Client.on_message(filters.group & filters.command("index"))
 async def connect(bot: Client, message):
+    if len(message.command) == 1:
+        return await message.reply("❌ Incorrect format!\nUse `/index ChannelID`", parse_mode=enums.ParseMode.MARKDOWN)
     m=await message.reply("Please wait..")
     user = await YaaraOP.get_me()
     try:
