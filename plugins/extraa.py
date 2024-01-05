@@ -13,7 +13,7 @@ async def info_handle(_, m):
         return await m.reply("Please Use In Group Chat")
     id = m.from_user.id 
     dexa = await get_group(chat_id)
-    if not dexa:
+    if not dexa and (await app.get_chat_member(chat_id, m.from_user.id)).status == enums.ChatMemberStatus.OWNER:
         try:
             buttons = [[
             InlineKeyboardButton('𝚂𝚄𝙿𝙿𝙾𝚁𝚃', url=f'https://t.me/YaaraOP')]]

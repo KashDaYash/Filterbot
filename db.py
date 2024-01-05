@@ -55,7 +55,7 @@ async def get_group(id):
     if group:
         return dict(group)
     else:
-        None
+        return None
     
 async def add_user(id, name):
     data = {"_id":id, "name":name}
