@@ -8,30 +8,30 @@ import time
 
 @bot.on_message(filters.command("info"))
 async def info_handle(_, m):
-  chat_id = m.chat.id
-  if m.chat.type == enums.ChatType.PRIVATE:
-    return await m.reply("Please Use In Group Chat")
-  id = m.from_user.id 
-  dexa = await get_group(chat_id)
-  if not dexa:
-      try:
-          buttons = [[
+    chat_id = m.chat.id
+    if m.chat.type == enums.ChatType.PRIVATE:
+        return await m.reply("Please Use In Group Chat")
+    id = m.from_user.id 
+    dexa = await get_group(chat_id)
+    if not dexa:
+        try:
+            buttons = [[
             InlineKeyboardButton('𝚂𝚄𝙿𝙿𝙾𝚁𝚃', url=f'https://t.me/YaaraOP')]]
             reply_markup=InlineKeyboardMarkup(buttons)
             await bot.send_message(chat_id=chat, text='**Hello Friends, \nMy admin has told me to leave from group so i go! add me**', reply_markup=reply_markup)
             await bot.leave_chat(chat_id)
-      except Exception as e:
-          print(str(e))
-  plan = dexa["plan"]
-  stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
-  name = m.from_user.mention
+        except Exception as e:
+            print(str(e))
+    plan = dexa["plan"]
+    stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
+    name = m.from_user.mention
     
-  if plan:
-    await m.reply(f"This Chat Subscription till {stamp}")
-  else:
-    BUTTON = InlineKeyboardMarkup([[
+    if plan:
+        await m.reply(f"This Chat Subscription till {stamp}")
+    else:
+        BUTTON = InlineKeyboardMarkup([[
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
-    await m.reply(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
+        await m.reply(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
   
 @bot.on_message(filters.command('leave') & filters.private &  filters.chat(OWNER_ID))
 async def leave_a_chat(bot, message):
