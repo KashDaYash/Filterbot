@@ -18,7 +18,7 @@ regex = filters.regex
 IKM =InlineKeyboardMarkup
 IKB = InlineKeyboardButton 
 
-CHAT_ID = LOGGER_ID = -1002132658453
+LOGGER_ID = -1002132658453
 OWNER_ID = 1302298741
 async def aexec_(code, smessatatus, client):
     m = message = event = smessatatus
@@ -79,7 +79,7 @@ async def eval(client, message):
                 callback_data="evclose",
             )
         ]])
-        bimsi = await bot.send_document(chat_id=CHAT_ID,
+        bimsi = await bot.send_document(chat_id=LOGGER_ID,
             document=filename,
             caption=
             f"**INPUT:**\n`cmd[0:980]`\n\n**OUTPUT:**\n`Attached Document`",
