@@ -32,7 +32,7 @@ async def auth_handle(bot: Client, m: Message):
     user_name = group['user_name']
     verified = group["verified"]
     if verified == True:
-        await m.reply(f"user id: {user_id}\n username: @{user_name} group chat is already verified!")
+        await m.reply(f"user id: {user_id}\nusername: @{user_name} group chat is already verified!")
         return 
     else:
         current = int(time.time())
@@ -41,5 +41,6 @@ async def auth_handle(bot: Client, m: Message):
         timestamp = time.strftime("%Y-%m-%d", time.localtime(new))
         await update_group(id, {"verified": True, "plan": new})
         await m.reply(f"user id: {user_id}\n username: @{user_name} group chat is verified!")
-        await bot.send_message(id, f"hey @{user_name} Purchase A Subscription For {timestamp}days ")
+        await bot.send_message(id, f"hey @{user_name} Purchase A Subscription For {timestamp} days ")
+        return 
   
