@@ -8,3 +8,4 @@ SESSION = str(os.getenv("SESSION"))
 DATABASE_URI = os.getenv('DATABASE_URI')
 OWNER = os.getenv("OWNER")
 LOG_CHANNEL = int(os.getenv("LOG_CHANNEL"))
+

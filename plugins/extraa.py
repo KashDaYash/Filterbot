@@ -4,7 +4,7 @@ from config import OWNER_ID
 from pyrogram import *
 from pyrogram.types import *
 import time 
-
+import os 
 
 @bot.on_message(filters.command("info"))
 async def info_handle(_, m):
@@ -49,3 +49,8 @@ async def leave_a_chat(bot, message):
     except Exception as e:
         await message.reply(f'Error - {e}')
         
+@bot.on_message(filters.command('log') & filters.user(OWNER_ID))
+async def log_catcher(bot: Client, message: Message):
+    chat_id = message.chat.id
+    root_folder = os.getcwd()
+    
