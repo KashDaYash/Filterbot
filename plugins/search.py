@@ -1,7 +1,8 @@
 import asyncio
 from time import time
 from cachetools import TTLCache
-from bot import Client as app, YaaraOP
+from bot import Client as app
+from userbot import Client as YaaraOP
 from db import *
 from config import *
 from pyrogram import *

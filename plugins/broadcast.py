@@ -1,4 +1,5 @@
-from bot import Client as app, YaaraOP
+from bot import Client as app
+from userbot import Client as YaaraOP
 from db import *
 from config import OWNER_ID 
 from pyrogram import *
