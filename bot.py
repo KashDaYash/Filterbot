@@ -48,6 +48,6 @@ class Bot(Client):
 if __name__ == "__main__":
     bot = Bot()
     bot.run()
-    await YaaraOP.start()
-    await YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')
+    YaaraOP.start()
+    YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')
     idle()
