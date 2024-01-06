@@ -32,6 +32,7 @@ class Bot(Client):
       try:
         await super().start()
         await YaaraOP.start()
+        await asyncio.sleep(1)
         await YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')
         await super().send_message(LOG_CHANNEL, "STARTED 💥 ")
           # Start the User client
