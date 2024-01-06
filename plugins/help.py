@@ -1,6 +1,6 @@
 from config import OWNER
 from pyrogram import filters
-from bot import app
+from bot import Client as app
 from config import *
 
 HELP_TEXT = f'''😇How To use  me

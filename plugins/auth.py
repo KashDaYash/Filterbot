@@ -1,4 +1,4 @@
-from bot import app
+from bot import Client as app
 from db import *
 from config import *
 from pyrogram import *

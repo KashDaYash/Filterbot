@@ -2,7 +2,7 @@ import asyncio
 from db import *
 from config import *
 from time import time
-from bot import app
+from bot import Client as app
 import time 
 from datetime import datetime 
 from pyrogram import filters, enums

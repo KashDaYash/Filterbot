@@ -2,7 +2,7 @@ from config import LOG_CHANNEL, OWNER_ID
 from db import *
 from asyncio import sleep
 from pyrogram import *
-from bot import app
+from bot import Client as app
 from pyrogram.errors import *
 
 
