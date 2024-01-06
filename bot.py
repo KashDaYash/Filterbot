@@ -68,10 +68,3 @@ class Userbot(Client):
         LOGGER.info("UserBot Stopped")
       except Exception as e:
         LOGGER.exception("Error while stopping userbot: %s", str(e))
-
-if __name__ == "__main__":
-    app = Bot()
-    app.run()
-    YaaraOP = UserBot()
-    YaaraOP.run()
-    idle()
