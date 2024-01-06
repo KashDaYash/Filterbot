@@ -31,9 +31,8 @@ class Bot(Client):
     async def start(self):
       try:
         await super().start()
-        await YaaraOP.start()
         await super().send_message(LOG_CHANNEL, "STARTED 💥 ")
-        await YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')  # Start the User client
+          # Start the User client
         LOGGER.info("Bot Started ⚡")
       except Exception as e:
         LOGGER.exception("Error while starting bot: %s", str(e))
@@ -49,4 +48,6 @@ class Bot(Client):
 if __name__ == "__main__":
     bot = Bot()
     bot.run()
+    await YaaraOP.start()
+    await YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')
     idle()
