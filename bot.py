@@ -13,9 +13,6 @@ logging.basicConfig(
 )
 LOGGER = logging.getLogger(__name__)
 
-# Initialize clients
-YaaraOP = Client(name="user_session", session_string=SESSION, workers=3)
-
 
 class Bot(Client):
     def __init__(self):
@@ -32,8 +29,6 @@ class Bot(Client):
       try:
         await super().start()
         await YaaraOP.start()
-        await asyncio.sleep(1)
-        await YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')
         await super().send_message(LOG_CHANNEL, "STARTED 💥 ")
           # Start the User client
         LOGGER.info("Bot Started ⚡")
@@ -43,13 +38,41 @@ class Bot(Client):
     async def stop(self, *args):
       try:
         await super().stop()
-        await YaaraOP.stop()  # Stop the User client
         LOGGER.info("Bot Stopped")
       except Exception as e:
         LOGGER.exception("Error while stopping bot: %s", str(e))
 
+
+class Userbot(Client):
+    def __init__(self):
+        super().__init__(
+            "userbot_session",
+            api_id=API_ID,
+            api_hash=API_HASH,
+            session_string=str(SESSION),
+            no_updates=True,
+            workers=3
+        )
+
+    async def start(self):
+      try:
+        await super().start()
+        await super().send_message(LOG_CHANNEL, '@YaaraOP')
+          # Start the User client
+        LOGGER.info("UserBot Started ⚡")
+      except Exception as e:
+        LOGGER.exception("Error while starting userbot: %s", str(e))
+
+    async def stop(self, *args):
+      try:
+        await super().stop()
+        LOGGER.info("UserBot Stopped")
+      except Exception as e:
+        LOGGER.exception("Error while stopping userbot: %s", str(e))
+
 if __name__ == "__main__":
     bot = Bot()
     bot.run()
-    
+    YaaraOP = UserBot()
+    YaaraOP.run()
     idle()
