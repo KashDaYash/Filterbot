@@ -1,6 +1,6 @@
 from config import OWNER
 from pyrogram import filters
-from bot import bot
+from bot import app
 from config import *
 
 HELP_TEXT = f'''😇How To use  me
@@ -30,13 +30,13 @@ Auto_delete : use /autodel command to enable or disable
 
 
 
-@bot.on_message(filters.command("help"))
-async def help_handler(bot, m):
+@app.on_message(filters.command("help"))
+async def help_handler(app, m):
   chat_id = m.chat.id
   await m.reply(HELP_TEXT)
   
-@bot.on_message(filters.command("id"))
-async def id_handle(bot:bot , m):
+@app.on_message(filters.command("id"))
+async def id_handle(app , m):
   chat_id = m.chat.id
   user = m.from_user
   MSG = f"This Chat ID : `{chat_id}`\n"
@@ -55,9 +55,9 @@ TEXT = f'''This bot is made by @{OWNER} A full time python developer
 Our channel :- @movie_artss
 Our selling channel :- @platimostore
 
-Want to make any kink of bot & tool dm @{OWNER}'''
+Want to make any kind of bot & tool dm @{OWNER}'''
 
-@bot.on_message(filters.command("about"))
+@app.on_message(filters.command("about"))
 async def about_handle(_,m):
   chat_id = m.chat.id
   await m.reply(TEXT)

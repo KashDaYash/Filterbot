@@ -2,10 +2,10 @@ from config import *
 from db import *
 from pyrogram import *
 from pyrogram.types import *
-from bot import bot
+from bot import app
 
-@bot.on_message(filters.group & filters.command("forcesub"))
-async def f_sub_cmd(bot, message):
+@app.on_message(filters.group & filters.command("forcesub"))
+async def f_sub_cmd(app, message):
     m=await message.reply("Please wait..")
     try:
        group     = await get_group(message.chat.id)
@@ -13,7 +13,7 @@ async def f_sub_cmd(bot, message):
        user_name = group["user_name"]
        verified  = group["verified"]
     except :
-       return await bot.leave_chat(message.chat.id)  
+       return await app.leave_chat(message.chat.id)  
     if message.from_user.id!=user_id:
        return await m.edit(f"Only {user_name} can use this command 😁")
     if bool(verified)==False:
@@ -23,8 +23,8 @@ async def f_sub_cmd(bot, message):
     except:
        return await m.edit("❌ Incorrect format!\nUse `/forcesub ChannelID`")       
     try:
-       chat   = await bot.get_chat(f_sub)
-       group  = await bot.get_chat(message.chat.id)
+       chat   = await app.get_chat(f_sub)
+       group  = await app.get_chat(message.chat.id)
        c_link = chat.invite_link
        g_link = group.invite_link       
     except Exception as e:
@@ -33,10 +33,10 @@ async def f_sub_cmd(bot, message):
     await update_group(message.chat.id, {"f_sub":f_sub})
     await m.edit(f"✅ Successfully Attached ForceSub to [{chat.title}]({c_link})!", disable_web_page_preview=True)
     text = f"#NewFsub\n\nUser: {message.from_user.mention}\nGroup: [{group.title}]({g_link})\nChannel: [{chat.title}]({c_link})"
-    await bot.send_message(chat_id=LOG_CHANNEL, text=text)
+    await app.send_message(chat_id=LOG_CHANNEL, text=text)
 
-@bot.on_message(filters.group & filters.command("nofsub"))
-async def nf_sub_cmd(bot, message):
+@app.on_message(filters.group & filters.command("nofsub"))
+async def nf_sub_cmd(app, message):
     m=await message.reply("Disattaching..")
     try:
        group     = await get_group(message.chat.id)
@@ -45,7 +45,7 @@ async def nf_sub_cmd(bot, message):
        verified  = group["verified"]
        f_sub     = group["f_sub"]
     except :
-       return await bot.leave_chat(message.chat.id)  
+       return await app.leave_chat(message.chat.id)  
     if message.from_user.id!=user_id:
        return await m.edit(f"Only {user_name} can use this command 😁")
     if bool(verified)==False:
@@ -53,8 +53,8 @@ async def nf_sub_cmd(bot, message):
     if bool(f_sub)==False:
        return await m.edit("This chat is currently don't have any FSub\nuse /forcesub")        
     try:
-       chat   = await bot.get_chat(f_sub)
-       group  = await bot.get_chat(message.chat.id)
+       chat   = await app.get_chat(f_sub)
+       group  = await app.get_chat(message.chat.id)
        c_link = chat.invite_link
        g_link = group.invite_link       
     except Exception as e:
@@ -63,11 +63,11 @@ async def nf_sub_cmd(bot, message):
     await update_group(message.chat.id, {"f_sub":False})
     await m.edit(f"✅ Successfully removed FSub from [{chat.title}]({c_link})!", disable_web_page_preview=True)
     text = f"#RemoveFsub\n\nUser: {message.from_user.mention}\nGroup: [{group.title}]({g_link})\nChannel: [{chat.title}]({c_link})"
-    await bot.send_message(chat_id=LOG_CHANNEL, text=text)
+    await app.send_message(chat_id=LOG_CHANNEL, text=text)
 
        
-@bot.on_callback_query(filters.regex(r"^checksub"))
-async def f_sub_callback(bot, update):
+@app.on_callback_query(filters.regex(r"^checksub"))
+async def f_sub_callback(app, update):
     user_id = int(update.data.split("_")[-1])
     group   = await get_group(update.message.chat.id)
     f_sub   = group["f_sub"]
@@ -76,18 +76,18 @@ async def f_sub_callback(bot, update):
     if update.from_user.id!=user_id:
        return await update.answer("That's not for you 😂", show_alert=True)
     try:
-       await bot.get_chat_member(f_sub, user_id)          
+       await app.get_chat_member(f_sub, user_id)          
     except UserNotParticipant:
        await update.answer("I like your smartness..\nBut don't be over smart 🤭", show_alert=True) # @subinps 😁
     except:       
-       await bot.restrict_chat_member(chat_id=update.message.chat.id, 
+       await app.restrict_chat_member(chat_id=update.message.chat.id, 
                                       user_id=user_id,
                                       permissions=ChatPermissions(can_send_messages=True,
                                                                   can_send_media_messages=True,
                                                                   can_send_other_messages=True))
        await update.message.delete()
     else:
-       await bot.restrict_chat_member(chat_id=update.message.chat.id, 
+       await app.restrict_chat_member(chat_id=update.message.chat.id, 
                                       user_id=user_id,
                                       permissions=ChatPermissions(can_send_messages=True,
                                                                   can_send_media_messages=True,

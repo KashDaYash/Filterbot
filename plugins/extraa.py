@@ -1,4 +1,4 @@
-from bot import bot
+from bot import app
 from db import *
 from config import OWNER_ID
 from pyrogram import *
@@ -6,7 +6,7 @@ from pyrogram.types import *
 import time 
 import os 
 
-@bot.on_message(filters.command("info"))
+@app.on_message(filters.command("info"))
 async def info_handle(_, m):
     chat_id = m.chat.id
     if m.chat.type == enums.ChatType.PRIVATE:
@@ -24,8 +24,8 @@ async def info_handle(_, m):
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
         await m.reply(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
   
-@bot.on_message(filters.command('leave') & filters.private &  filters.chat(OWNER_ID))
-async def leave_a_chat(bot, message):
+@app.on_message(filters.command('leave') & filters.private &  filters.chat(OWNER_ID))
+async def leave_a_chat(app, message):
     if len(message.command) == 1:
         return await message.reply('Give me a chat id')
     chat = message.command[1]
@@ -38,13 +38,13 @@ async def leave_a_chat(bot, message):
             InlineKeyboardButton('𝚂𝚄𝙿𝙿𝙾𝚁𝚃', url=f'https://t.me/YaaraOP')
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
-        await bot.send_message(
+        await app.send_message(
             chat_id=chat,
             text='<b>Hello Friends, \nMy admin has told me to leave from group so i go! If you wanna add me again contact my support group.</b>',
             reply_markup=reply_markup,
         )
 
-        await bot.leave_chat(chat)
+        await app.leave_chat(chat)
         await message.reply(f"left the chat `{chat}`")
     except Exception as e:
         await message.reply(f'Error - {e}')

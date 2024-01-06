@@ -1,4 +1,4 @@
-from bot import bot
+from bot import app
 from db import *
 from config import *
 from pyrogram import *
@@ -9,20 +9,20 @@ import time
 
 
 
-@bot.on_message(filters.command("check") & filters.user(OWNER_ID))
-async def chat_id_check(bot, m):
+@app.on_message(filters.command("check") & filters.user(OWNER_ID))
+async def chat_id_check(app, m):
     chat_id = m.chat.id
     if len(m.command) == 1:
         CHECKING = "Please Provide Me In Correct Format /check -chat id"
         await m.reply(CHECKING)
     else:
         n_id = int(m.text.split(None,1)[-1])
-        group = await bot.get_chat(n_id)
+        group = await app.get_chat(n_id)
         uname = group.username
         await m.reply("You Giving Me @" + uname + " Chat ID")
   
-@bot.on_message(filters.command("auth") & filters.private & filters.user(OWNER_ID))
-async def auth_handle(bot, m: Message):
+@app.on_message(filters.command("auth") & filters.private & filters.user(OWNER_ID))
+async def auth_handle(app, m: Message):
     if len(m.command) == 1 or len(m.command) == 2:
         await m.reply("Please Provide Group ID And Time Period like /auth <Group ID> <Time>", parse_mode=enums.ParseMode.MARKDOWN)
         return 
@@ -41,6 +41,6 @@ async def auth_handle(bot, m: Message):
         timestamp = time.strftime("%Y-%m-%d", time.localtime(new))
         await update_group(id, {"verified": True, "plan": new})
         await m.reply(f"user id: {user_id}\n username: @{user_name} group chat is verified!")
-        await bot.send_message(id, f"hey @{user_name} Purchase A Subscription For {timestamp} days ")
+        await app.send_message(id, f"hey @{user_name} Purchase A Subscription For {timestamp} days ")
         return 
   

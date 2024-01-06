@@ -1,11 +1,11 @@
-from bot import bot, YaaraOP
+from bot import app, YaaraOP
 from db import *
 from config import *
 from pyrogram import *
 from pyrogram.types import *
 
-@bot.on_message(filters.group & filters.command("index"))
-async def connect(bot, message):
+@app.on_message(filters.group & filters.command("index"))
+async def connect(app, message):
     if len(message.command) == 1:
         return await message.reply("❌ Incorrect format!\nUse `/index ChannelID`", parse_mode=enums.ParseMode.MARKDOWN)
     m=await message.reply("Please wait..")
@@ -17,7 +17,7 @@ async def connect(bot, message):
        verified  = group["verified"]
        channels  = group["channels"].copy()
     except :
-       return await bot.leave_chat(message.chat.id)  
+       return await app.leave_chat(message.chat.id)  
     if message.from_user.id!=user_id:
        return await m.edit(f"Only @{user_name} can use this command 😁")
     if bool(verified)==False:
@@ -30,8 +30,8 @@ async def connect(bot, message):
     except:
        return await m.edit("❌ Incorrect format!\nUse `/index ChannelID`")    
     try:
-       chat   = await bot.get_chat(channel)
-       group  = await bot.get_chat(message.chat.id)
+       chat   = await app.get_chat(channel)
+       group  = await app.get_chat(message.chat.id)
        c_link = chat.invite_link
        g_link = group.invite_link
        await YaaraOP.join_chat(c_link)
@@ -44,11 +44,11 @@ async def connect(bot, message):
     await update_group(message.chat.id, {"channels":channels})
     await m.edit(f"✅ Successfully indexed to [{chat.title}]({c_link})!", disable_web_page_preview=True)
     text = f"#NewConnection\n\nUser: {message.from_user.mention}\nGroup: [{group.title}]({g_link})\nChannel: [{chat.title}]({c_link})"
-    await bot.send_message(chat_id=LOG_CHANNEL, text=text)
+    await app.send_message(chat_id=LOG_CHANNEL, text=text)
 
 
-@bot.on_message(filters.group & filters.command("remove"))
-async def disconnect(bot, message):
+@app.on_message(filters.group & filters.command("remove"))
+async def disconnect(app, message):
     m=await message.reply("Please wait..")   
     try:
        group     = await get_group(message.chat.id)
@@ -57,7 +57,7 @@ async def disconnect(bot, message):
        verified  = group["verified"]
        channels  = group["channels"].copy()
     except :
-       return await bot.leave_chat(message.chat.id)  
+       return await app.leave_chat(message.chat.id)  
     if message.from_user.id!=user_id:
        return await m.edit(f"Only @{user_name} can use this command 😁")
     if bool(verified)==False:
@@ -70,8 +70,8 @@ async def disconnect(bot, message):
     except:
        return await m.edit("❌ Incorrect format!\nUse `/remove ChannelID`")
     try:
-       chat   = await bot.get_chat(channel)
-       group  = await bot.get_chat(message.chat.id)
+       chat   = await app.get_chat(channel)
+       group  = await app.get_chat(message.chat.id)
        c_link = chat.invite_link
        g_link = group.invite_link
        await YaaraOP.leave_chat(channel)
@@ -81,11 +81,11 @@ async def disconnect(bot, message):
     await update_group(message.chat.id, {"channels":channels})
     await m.edit(f"✅ Successfully removed from [{chat.title}]({c_link})!", disable_web_page_preview=True)
     text = f"#DisConnection\n\nUser: {message.from_user.mention}\nGroup: [{group.title}]({g_link})\nChannel: [{chat.title}]({c_link})"
-    await bot.send_message(chat_id=LOG_CHANNEL, text=text)
+    await app.send_message(chat_id=LOG_CHANNEL, text=text)
 
 
-@bot.on_message(filters.group & filters.command("viewlist"))
-async def connections(bot, message):
+@app.on_message(filters.group & filters.command("viewlist"))
+async def connections(app, message):
     group = await get_group(message.chat.id)    
     user_id   = group["user_id"]
     user_name = group["user_name"]
@@ -98,7 +98,7 @@ async def connections(bot, message):
     text = "This Group is currently indexed to:\n\n"
     for channel in channels:
         try:
-           chat = await bot.get_chat(channel)
+           chat = await app.get_chat(channel)
            name = chat.title
            chat_nid = chat.id
            text += f"{name} : {chat_nid}\n"
@@ -106,7 +106,7 @@ async def connections(bot, message):
            await message.reply(f"❌ Error in `{channel}:`\n`{e}`")
     if bool(f_sub):
        try:
-          f_chat  = await bot.get_chat(channel)
+          f_chat  = await app.get_chat(channel)
           f_title = f_chat.title
           f_link  = f_chat.invite_link
           text += f"\nFSub: [{f_title}]({f_link})"

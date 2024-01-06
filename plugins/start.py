@@ -1,12 +1,12 @@
-from bot import bot
+from bot import app
 from db import *
 from config import *
 from pyrogram import *
 from pyrogram.types import *
 
 
-@bot.on_message(filters.command("start"))
-async def start_handle(bot, m):
+@app.on_message(filters.command("start"))
+async def start_handle(app, m):
   user = m.from_user
   START_MSG = f'''Hey {user.mention}    
     

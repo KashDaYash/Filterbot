@@ -1,6 +1,6 @@
 import asyncio
 from config import *
-from bot import bot
+from bot import app
 from pyrogram import enums
 from pymongo.errors import DuplicateKeyError
 from pyrogram.errors import UserNotParticipant
@@ -95,7 +95,7 @@ async def delete_all_dlt_data(_time):
   data = {"_time": {"$lte": _time}}
   await dlt_col.delete_many(data)
 
-async def force_sub(bot, message):
+async def force_sub(app, message):
     group = await get_group(message.chat.id)
     f_sub = group["f_sub"]
     admin = group["user_id"]
@@ -104,15 +104,15 @@ async def force_sub(bot, message):
     if message.from_user is None:
        return True 
     try:
-       f_link = (await bot.get_chat(f_sub)).invite_link
-       member = await bot.get_chat_member(f_sub, message.from_user.id)
+       f_link = (await app.get_chat(f_sub)).invite_link
+       member = await app.get_chat_member(f_sub, message.from_user.id)
        if member.status==enums.ChatMemberStatus.BANNED:
           await message.reply(f"Sorry {message.from_user.mention}!\n You are banned in our channel, you will be banned from here within 10 seconds")
           await asyncio.sleep(10)
-          await bot.ban_chat_member(message.chat.id, message.from_user.id)
+          await app.ban_chat_member(message.chat.id, message.from_user.id)
           return False       
     except UserNotParticipant:
-       await bot.restrict_chat_member(chat_id=message.chat.id, 
+       await app.restrict_chat_member(chat_id=message.chat.id, 
                                       user_id=message.from_user.id,
                                       permissions=ChatPermissions(can_send_messages=False)
                                       )
@@ -122,7 +122,7 @@ async def force_sub(bot, message):
        await message.delete()
        return False
     except Exception as e:
-       await bot.send_message(chat_id=admin, text=f"❌ Error in Fsub:\n`{str(e)}`")
+       await app.send_message(chat_id=admin, text=f"❌ Error in Fsub:\n`{str(e)}`")
        return False 
     else:
        return True 

@@ -2,19 +2,19 @@ import asyncio
 from db import *
 from config import *
 from time import time
-from bot import bot
+from bot import app
 import time 
 from datetime import datetime 
 from pyrogram import filters, enums
 from pyrogram.types import * 
 
 PLAN = ""
-async def check_up(bot):   
+async def check_up(app):   
   _time = int(time.time()) 
   all_data = await get_all_dlt_data(_time)
   for data in all_data:
     try:
-      await bot.delete_messages(chat_id=data["chat_id"],
+      await app.delete_messages(chat_id=data["chat_id"],
       message_ids=data["message_id"])           
     except Exception as e:
       err=data
@@ -24,7 +24,7 @@ async def check_up(bot):
 
 
 
-async def check_plan(bot):
+async def check_plan(app):
     _time = int(time.time())
     all_data = await get_plan_data(_time)
     for data in all_data:
@@ -33,23 +33,23 @@ async def check_plan(bot):
                 id = data['_id']
                 user = data['user_name']
                 await update_group(id, {"verified": False, "plan": ""})
-                x = await bot.send_message(chat_id=id, text=f"Subscription Expired ", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Buy Now", url=f"t.me/{OWNER}")]]))
-                await bot.pin_chat_message(chat_id=id, message_id=x.id)
+                x = await app.send_message(chat_id=id, text=f"Subscription Expired ", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Buy Now", url=f"t.me/{OWNER}")]]))
+                await app.pin_chat_message(chat_id=id, message_id=x.id)
         except Exception as e:
-            await bot.send_message(OWNER_ID, f"Got error in Related Subscription Expired {e}\nUser : {data['user_name']}\nUser ID : {data['user_id']}\nChat ID :{data['_id']}\n")
+            await app.send_message(OWNER_ID, f"Got error in Related Subscription Expired {e}\nUser : {data['user_name']}\nUser ID : {data['user_id']}\nChat ID :{data['_id']}\n")
     
 async def run_check_up():
         while True:  
-           await check_up(bot)
+           await check_up(app)
            await asyncio.sleep(1)
            
 async def run_check_plan():
         while True:  
-           await check_plan(bot)
+           await check_plan(app)
            await asyncio.sleep(21600)
            
            
-@bot.on_message(filters.command("buy")) 
+@app.on_message(filters.command("buy")) 
 async def buy_handle(_, m):
   BUTTON = InlineKeyboardMarkup([[
   InlineKeyboardButton(text="USD PRICE",callback_data="usd_p"),
@@ -57,7 +57,7 @@ async def buy_handle(_, m):
   ]])
   await m.reply(text="All The Available Plans",reply_markup=BUTTON)
   
-@bot.on_callback_query()
+@app.on_callback_query()
 async def cb_help(_, callback_query: CallbackQuery):
   data = callback_query.data
   PLAN_USD = '''These are the prices in USD:\n\n2 USD - per Month\n6 USD - per 6 Months\n10 USD - per Year\n\nClick on the Buy button to contact the owner'''
@@ -79,7 +79,7 @@ async def cb_help(_, callback_query: CallbackQuery):
     await callback_query.message.edit(PLAN_INR, reply_markup=BTN_1)
   elif data == "usd_p":
     await callback_query.message.edit(PLAN_USD, reply_markup=BTN_2)           
-@bot.on_message(filters.command("autodel"))
+@app.on_message(filters.command("autodel"))
 async def auto_del_handler(_, m):
   id = m.chat.id
   if m.chat.type == enums.ChatType.PRIVATE:
