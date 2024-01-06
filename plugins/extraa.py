@@ -1,6 +1,6 @@
 from bot import Client as bot
 from db import *
-from config import *
+from config import OWNER_ID
 from pyrogram import *
 from pyrogram.types import *
 import time 
