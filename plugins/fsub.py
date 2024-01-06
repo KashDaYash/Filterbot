@@ -2,9 +2,9 @@ from config import *
 from db import *
 from pyrogram import *
 from pyrogram.types import *
-from bot import Client
+from bot import bot
 
-@Client.on_message(filters.group & filters.command("forcesub"))
+@bot.on_message(filters.group & filters.command("forcesub"))
 async def f_sub_cmd(bot, message):
     m=await message.reply("Please wait..")
     try:
@@ -35,7 +35,7 @@ async def f_sub_cmd(bot, message):
     text = f"#NewFsub\n\nUser: {message.from_user.mention}\nGroup: [{group.title}]({g_link})\nChannel: [{chat.title}]({c_link})"
     await bot.send_message(chat_id=LOG_CHANNEL, text=text)
 
-@Client.on_message(filters.group & filters.command("nofsub"))
+@bot.on_message(filters.group & filters.command("nofsub"))
 async def nf_sub_cmd(bot, message):
     m=await message.reply("Disattaching..")
     try:
@@ -66,7 +66,7 @@ async def nf_sub_cmd(bot, message):
     await bot.send_message(chat_id=LOG_CHANNEL, text=text)
 
        
-@Client.on_callback_query(filters.regex(r"^checksub"))
+@bot.on_callback_query(filters.regex(r"^checksub"))
 async def f_sub_callback(bot, update):
     user_id = int(update.data.split("_")[-1])
     group   = await get_group(update.message.chat.id)

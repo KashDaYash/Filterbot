@@ -1,11 +1,11 @@
-from bot import Client, YaaraOP
+from bot import bot, YaaraOP
 from db import *
 from config import *
 from pyrogram import *
 from pyrogram.types import *
 
-@Client.on_message(filters.group & filters.command("index"))
-async def connect(bot: Client, message):
+@bot.on_message(filters.group & filters.command("index"))
+async def connect(bot, message):
     if len(message.command) == 1:
         return await message.reply("❌ Incorrect format!\nUse `/index ChannelID`", parse_mode=enums.ParseMode.MARKDOWN)
     m=await message.reply("Please wait..")
@@ -47,8 +47,8 @@ async def connect(bot: Client, message):
     await bot.send_message(chat_id=LOG_CHANNEL, text=text)
 
 
-@Client.on_message(filters.group & filters.command("remove"))
-async def disconnect(bot:Client, message):
+@bot.on_message(filters.group & filters.command("remove"))
+async def disconnect(bot, message):
     m=await message.reply("Please wait..")   
     try:
        group     = await get_group(message.chat.id)
@@ -84,8 +84,8 @@ async def disconnect(bot:Client, message):
     await bot.send_message(chat_id=LOG_CHANNEL, text=text)
 
 
-@Client.on_message(filters.group & filters.command("viewlist"))
-async def connections(bot:Client, message):
+@bot.on_message(filters.group & filters.command("viewlist"))
+async def connections(bot, message):
     group = await get_group(message.chat.id)    
     user_id   = group["user_id"]
     user_name = group["user_name"]

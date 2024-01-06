@@ -1,4 +1,4 @@
-from bot import Client, YaaraOP
+from bot import bot, YaaraOP
 from db import *
 from config import OWNER_ID 
 from pyrogram import *
@@ -11,8 +11,8 @@ Remaining: `{}`
 Success: `{}`
 Failed: `{}`"""
 
-@Client.on_message(filters.command('broadcast') & filters.user(OWNER_ID))
-async def broadcast(bot:Client, message):
+@bot.on_message(filters.command('broadcast') & filters.user(OWNER_ID))
+async def broadcast(bot, message):
     if not message.reply_to_message:
        return await message.reply("Use this command as a reply to any message!")
     m=await message.reply("Broadcasting...")   
@@ -57,8 +57,8 @@ STATS = """My Status 💫
 👥 Users: {}
 🧿 Groups: {}"""
 
-@Client.on_message(filters.command("stats") & filters.user(OWNER_ID))
-async def stats(bot: Client, message):
+@bot.on_message(filters.command("stats") & filters.user(OWNER_ID))
+async def stats(bot, message):
     g_count, g_list = await get_groups()
     u_count, u_list = await get_users()
     await message.reply(STATS.format(u_count, g_count))

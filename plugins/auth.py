@@ -1,4 +1,4 @@
-from bot import Client
+from bot import bot
 from db import *
 from config import *
 from pyrogram import *
@@ -9,8 +9,8 @@ import time
 
 
 
-@Client.on_message(filters.command("check") & filters.user(OWNER_ID))
-async def chat_id_check(bot: Client, m):
+@bot.on_message(filters.command("check") & filters.user(OWNER_ID))
+async def chat_id_check(bot, m):
     chat_id = m.chat.id
     if len(m.command) == 1:
         CHECKING = "Please Provide Me In Correct Format /check -chat id"
@@ -21,8 +21,8 @@ async def chat_id_check(bot: Client, m):
         uname = group.username
         await m.reply("You Giving Me @" + uname + " Chat ID")
   
-@Client.on_message(filters.command("auth") & filters.private & filters.user(OWNER_ID))
-async def auth_handle(bot: Client, m: Message):
+@bot.on_message(filters.command("auth") & filters.private & filters.user(OWNER_ID))
+async def auth_handle(bot, m: Message):
     if len(m.command) == 1 or len(m.command) == 2:
         await m.reply("Please Provide Group ID And Time Period like /auth <Group ID> <Time>", parse_mode=enums.ParseMode.MARKDOWN)
         return 

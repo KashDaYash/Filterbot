@@ -2,11 +2,11 @@ from config import LOG_CHANNEL, OWNER_ID
 from db import *
 from asyncio import sleep
 from pyrogram import *
-from bot import Client
+from bot import bot
 from pyrogram.errors import *
 
 
-@Client.on_message(filters.group & filters.new_chat_members)
+@bot.on_message(filters.group & filters.new_chat_members)
 async def new_group(bot, message):
     bot_id = (await bot.get_me()).id
     member = [u.id for u in message.new_chat_members]        

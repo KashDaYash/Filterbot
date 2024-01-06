@@ -1,7 +1,7 @@
 import asyncio
 from time import time
 from cachetools import TTLCache
-from bot import Client, YaaraOP
+from bot import bot, YaaraOP
 from db import *
 from config import *
 from pyrogram import *
@@ -67,7 +67,7 @@ async def search_channel_chunk(channels, query):
 
     return results
 
-@Client.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id", "autodel"]))
+@bot.on_message(filters.text & filters.group & filters.incoming & ~filters.command(["auth", "index", "id", "autodel"]))
 async def search(bot, message):
     star = time()
     f_sub = await force_sub(bot, message)

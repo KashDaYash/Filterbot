@@ -28,7 +28,6 @@ class Bot(Client):
     async def start(self):
       try:
         await super().start()
-        await YaaraOP.start()
         await super().send_message(LOG_CHANNEL, "STARTED 💥 ")
           # Start the User client
         LOGGER.info("Bot Started ⚡")

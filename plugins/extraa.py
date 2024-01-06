@@ -1,4 +1,4 @@
-from bot import Client as bot
+from bot import bot
 from db import *
 from config import OWNER_ID
 from pyrogram import *
@@ -49,8 +49,3 @@ async def leave_a_chat(bot, message):
     except Exception as e:
         await message.reply(f'Error - {e}')
         
-@bot.on_message(filters.command('log') & filters.user(OWNER_ID))
-async def log_catcher(bot: Client, message: Message):
-    chat_id = message.chat.id
-    root_folder = os.getcwd()
-    
