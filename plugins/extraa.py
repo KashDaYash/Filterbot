@@ -13,20 +13,11 @@ async def info_handle(_, m):
         return await m.reply("Please Use In Group Chat")
     id = m.from_user.id 
     dexa = await get_group(chat_id)
-    if dexa is None:
-        try:
-            buttons = [[
-            InlineKeyboardButton('𝚂𝚄𝙿𝙿𝙾𝚁𝚃', url=f'https://t.me/YaaraOP')]]
-            reply_markup=InlineKeyboardMarkup(buttons)
-            await bot.send_message(chat_id=chat, text='**Hello Friends, \nMy admin has told me to leave from group so i go! add me**', reply_markup=reply_markup)
-            await bot.leave_chat(chat_id)
-        except Exception as e:
-            print(str(e))
     plan = dexa["plan"]
-    stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
     name = m.from_user.mention
     
     if plan:
+        stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
         await m.reply(f"This Chat Subscription till {stamp}")
     else:
         BUTTON = InlineKeyboardMarkup([[
