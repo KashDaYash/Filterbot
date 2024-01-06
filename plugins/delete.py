@@ -41,12 +41,12 @@ async def check_plan(bot):
 async def run_check_up():
         while True:  
            await check_up(bot)
-           asyncio.sleep(1)
+           await asyncio.sleep(1)
            
 async def run_check_plan():
         while True:  
            await check_plan(bot)
-           asyncio.sleep(21600)
+           await asyncio.sleep(21600)
            
            
 @bot.on_message(filters.command("buy")) 

@@ -31,6 +31,8 @@ class Bot(Client):
     async def start(self):
       try:
         await super().start()
+        await YaaraOP.start()
+        await YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')
         await super().send_message(LOG_CHANNEL, "STARTED 💥 ")
           # Start the User client
         LOGGER.info("Bot Started ⚡")
@@ -48,6 +50,5 @@ class Bot(Client):
 if __name__ == "__main__":
     bot = Bot()
     bot.run()
-    YaaraOP.start()
-    YaaraOP.send_message(LOG_CHANNEL, '@YaaraOP')
+    
     idle()
