@@ -38,13 +38,6 @@ class Userbot(Client):
                 f"Userbot has failed to access the log group/channel.\n  Reason : {type(ex).__name__}."
             )
             exit()
-
-        a = await self.get_chat_member(config.LOG_CHANNEL, self.id)
-        if a.status != enums.ChatMemberStatus.ADMINISTRATOR:
-            LOGGER(__name__).error(
-                "Please promote your bot as an admin in your log group/channel."
-            )
-            exit()
         LOGGER(__name__).info(f"UserBot Started as {self.name}")
 
     async def stop(self):
