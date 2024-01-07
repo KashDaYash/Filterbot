@@ -13,4 +13,4 @@ def __list_all_modules():
 
 
 ALL_MODULES = __list_all_modules()
-LOGGER.info(f"Modules: {ALL_MODULES}")
+LOGGER("yash").info(f"Modules: {ALL_MODULES}")
