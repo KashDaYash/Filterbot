@@ -1,8 +1,7 @@
 import asyncio
 from time import time
 from cachetools import TTLCache
-from yash import app
-from userbot import Client as YaaraOP
+from yash import app, yk
 from yash.core.db import *
 from config import *
 from pyrogram import *
@@ -33,7 +32,7 @@ async def search_messages(chat_id, query):
         results = ""
         messages = []
 
-        async for msg in YaaraOP.search_messages(int(chat_id), query=query, limit=8):
+        async for msg in yk.search_messages(int(chat_id), query=query, limit=8):
             messages.append(msg)
 
         for msg in messages:
