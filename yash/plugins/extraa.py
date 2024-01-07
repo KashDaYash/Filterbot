@@ -16,9 +16,9 @@ async def info_handle(_, m):
     plan = dexa["plan"]
     name = m.from_user.mention
     
-    if plan:
+    if plan == True:
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
-        await m.reply(f"This Chat Subscription till {stamp}")
+        await m.reply(f"Your Subscription till {stamp}")
     else:
         BUTTON = InlineKeyboardMarkup([[
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
