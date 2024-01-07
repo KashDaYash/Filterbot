@@ -1,31 +1,51 @@
-from yash import LOGGER 
-from pyrogram import Client, idle 
-from config import SESSION, API_ID, API_HASH, LOG_CHANNEL 
-import asyncio 
+from pyrogram import Client, errors, enums 
+import config
+from ..logging import LOGGER
+
 
 class Userbot(Client):
     def __init__(self):
+        LOGGER(__name__).info(f"Starting Userbot...")
         super().__init__(
-            "userbot_session",
-            api_id=API_ID,
-            api_hash=API_HASH,
-            session_string=str(SESSION),
+            name="user_session",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=config.SESSION,
+            in_memory=True,
             no_updates=True,
-            workers=3
+            max_concurrent_transmissions=7,
         )
 
     async def start(self):
-      try:
         await super().start()
-        await super().send_message(LOG_CHANNEL, '@YaaraOP')
-          # Start the User client
-        LOGGER.info("UserBot Started ⚡")
-      except Exception as e:
-        LOGGER.exception("Error while starting userbot: %s", str(e))
+        self.id = self.me.id
+        self.name = self.me.first_name + " " + (self.me.last_name or "")
+        self.username = self.me.username
+        self.mention = self.me.mention
 
-    async def stop(self, *args):
-      try:
+        try:
+            await self.send_message(
+                chat_id=config.LOG_CHANNEL,
+                text=f"<u><b>» {self.mention} ʙᴏᴛ sᴛᴀʀᴛᴇᴅ :</b><u>\n\nɪᴅ : <code>{self.id}</code>\nɴᴀᴍᴇ : {self.name}\nᴜsᴇʀɴᴀᴍᴇ : @{self.username}",parse_mode=enums.ParseMode.HTML
+            )
+        except (errors.ChannelInvalid, errors.PeerIdInvalid):
+            LOGGER(__name__).error(
+                "Userbot has failed to access the log group/channel. Make sure that you have added your bot to your log group/channel."
+            )
+            exit()
+        except Exception as ex:
+            LOGGER(__name__).error(
+                f"Userbot has failed to access the log group/channel.\n  Reason : {type(ex).__name__}."
+            )
+            exit()
+
+        a = await self.get_chat_member(config.LOG_CHANNEL, self.id)
+        if a.status != ChatMemberStatus.ADMINISTRATOR:
+            LOGGER(__name__).error(
+                "Please promote your bot as an admin in your log group/channel."
+            )
+            exit()
+        LOGGER(__name__).info(f"UserBot Started as {self.name}")
+
+    async def stop(self):
         await super().stop()
-        LOGGER.info("UserBot Stopped")
-      except Exception as e:
-        LOGGER.exception("Error while stopping userbot: %s", str(e))
