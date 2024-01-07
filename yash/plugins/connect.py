@@ -1,6 +1,5 @@
-from bot import Client as app
-from userbot import Client as YaaraOP
-from db import *
+from yash import app, yk
+from yash.core.db *
 from config import *
 from pyrogram import *
 from pyrogram.types import *
@@ -10,7 +9,7 @@ async def connect(app, message):
     if len(message.command) == 1:
         return await message.reply("❌ Incorrect format!\nUse `/index ChannelID`", parse_mode=enums.ParseMode.MARKDOWN)
     m=await message.reply("Please wait..")
-    user = YaaraOP.me
+    user = yk.me
     try:
        group     = await get_group(message.chat.id)
        user_id   = group["user_id"] 
@@ -35,7 +34,7 @@ async def connect(app, message):
        group  = await app.get_chat(message.chat.id)
        c_link = chat.invite_link
        g_link = group.invite_link
-       await YaaraOP.join_chat(c_link)
+       await yk.join_chat(c_link)
     except Exception as e:
        if "The user is already a participant" in str(e):
           pass
@@ -75,7 +74,7 @@ async def disconnect(app, message):
        group  = await app.get_chat(message.chat.id)
        c_link = chat.invite_link
        g_link = group.invite_link
-       await YaaraOP.leave_chat(channel)
+       await yk.leave_chat(channel)
     except Exception as e:
        text = f"❌ Error: `{str(e)}`\nMake sure I'm admin in that channel & this group with all permissions and @{(user.username or user.mention)} is not banned there"
        return await m.edit(text)

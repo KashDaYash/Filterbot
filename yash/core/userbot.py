@@ -1,4 +1,4 @@
-import logging
+import LOGGER 
 from pyrogram import Client, idle 
 from config import SESSION, API_ID, API_HASH, LOG_CHANNEL 
 import asyncio 

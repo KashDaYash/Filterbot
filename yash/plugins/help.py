@@ -1,6 +1,6 @@
 from config import OWNER
 from pyrogram import filters
-from bot import Client as app
+from yash import app
 from config import *
 
 HELP_TEXT = f'''😇How To use  me

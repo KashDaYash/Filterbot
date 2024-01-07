@@ -1,17 +1,8 @@
-import logging
+import LOGGER 
 from pyrogram import Client, idle 
-from config import SESSION, API_ID, API_HASH, BOT_TOKEN, LOG_CHANNEL 
+from config import API_ID, API_HASH, BOT_TOKEN, LOG_CHANNEL 
 import asyncio 
 
-# Initialize logging
-FORMAT = "[%(asctime)s] [%(levelname)s] [%(name)s] %(message)s"
-logging.basicConfig(
-    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
-    level=logging.INFO,
-    format=FORMAT,
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-LOGGER = logging.getLogger(__name__)
 
 
 class Bot(Client):

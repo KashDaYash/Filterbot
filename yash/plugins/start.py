@@ -1,5 +1,5 @@
-from bot import Client as app
-from db import *
+from yash import app
+from yash.core.db *
 from config import *
 from pyrogram import *
 from pyrogram.types import *

@@ -1,8 +1,8 @@
 from config import *
-from db import *
+from yash.core.db *
 from pyrogram import *
 from pyrogram.types import *
-from bot import Client as app
+from yash import app
 
 @app.on_message(filters.group & filters.command("forcesub"))
 async def f_sub_cmd(app, message):

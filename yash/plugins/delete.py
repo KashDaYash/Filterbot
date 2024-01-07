@@ -1,8 +1,8 @@
 import asyncio
-from db import *
+from yash.core.db *
 from config import *
 from time import time
-from bot import Client as app
+from yash import app
 import time 
 from datetime import datetime 
 from pyrogram import filters, enums

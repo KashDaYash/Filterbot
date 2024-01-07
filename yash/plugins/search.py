@@ -1,9 +1,9 @@
 import asyncio
 from time import time
 from cachetools import TTLCache
-from bot import Client as app
+from yash import app
 from userbot import Client as YaaraOP
-from db import *
+from yash.core.db *
 from config import *
 from pyrogram import *
 from pyrogram.errors import FloodWait
