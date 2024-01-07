@@ -1,5 +1,5 @@
 import asyncio
-from yash.core.db *
+from yash.core.db import *
 from config import *
 from time import time
 from yash import app

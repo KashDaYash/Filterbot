@@ -3,7 +3,7 @@ from time import time
 from cachetools import TTLCache
 from yash import app
 from userbot import Client as YaaraOP
-from yash.core.db *
+from yash.core.db import *
 from config import *
 from pyrogram import *
 from pyrogram.errors import FloodWait

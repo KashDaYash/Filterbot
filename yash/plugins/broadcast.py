@@ -1,5 +1,5 @@
 from yash import app
-from yash.core.db *
+from yash.core.db import *
 from config import OWNER_ID 
 from pyrogram import *
 from pyrogram.errors import FloodWait

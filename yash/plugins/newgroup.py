@@ -1,5 +1,5 @@
 from config import LOG_CHANNEL, OWNER_ID 
-from yash.core.db *
+from yash.core.db import *
 from asyncio import sleep
 from pyrogram import *
 from yash import app

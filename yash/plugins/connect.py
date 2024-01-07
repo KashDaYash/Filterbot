@@ -1,5 +1,5 @@
 from yash import app, yk
-from yash.core.db *
+from yash.core.db import *
 from config import *
 from pyrogram import *
 from pyrogram.types import *
