@@ -39,7 +39,7 @@ class Bot(Client):
             exit()
 
         a = await self.get_chat_member(config.LOG_CHANNEL, self.id)
-        if a.status != ChatMemberStatus.ADMINISTRATOR:
+        if a.status != enums.ChatMemberStatus.ADMINISTRATOR:
             LOGGER(__name__).error(
                 "Please promote your bot as an admin in your log group/channel."
             )
