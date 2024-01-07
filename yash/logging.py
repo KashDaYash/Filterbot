@@ -7,8 +7,7 @@ logging.basicConfig(
     handlers=[
         logging.FileHandler("log.txt"),
         logging.StreamHandler(),
-    ],
-
+    ])
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 
 
