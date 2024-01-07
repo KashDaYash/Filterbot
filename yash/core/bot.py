@@ -1,4 +1,4 @@
-from pyrogram import Client, errors 
+from pyrogram import Client, errors, enums 
 import config
 from ..logging import LOGGER
 
