@@ -4,7 +4,8 @@ from config import OWNER_ID
 from pyrogram import *
 from pyrogram.types import *
 import time 
-import os 
+import os
+from yash.logging import LOGGER 
 
 @app.on_message(filters.command("info"))
 async def info_handle(_, m):
@@ -15,9 +16,8 @@ async def info_handle(_, m):
     dexa = await get_group(chat_id)
     plan = dexa["plan"]
     name = m.from_user.mention
-    print("plan get")
     if plan:
-        print("plan found")
+        LOGGER("plan get").info("plan get huh !!")
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
         await m.reply(f"Your Subscription till {stamp}")
     
