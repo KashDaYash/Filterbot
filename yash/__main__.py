@@ -9,7 +9,6 @@ from yash.plugins import ALL_MODULES
 
 
 async def init():
-    await app.start()
     for all_module in ALL_MODULES:
         importlib.import_module("yash.plugins." + all_module)
     LOGGER("yash.plugins").info("Successfully Imported Modules...")
