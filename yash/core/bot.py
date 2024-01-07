@@ -24,7 +24,7 @@ class Bot(Client):
 
         try:
             await self.send_message(
-                chat_id=config.LOG_CHANNEL,
+                chat_id=config.LOG_GROUP,
                 text=f"<u><b>» {self.mention} ʙᴏᴛ sᴛᴀʀᴛᴇᴅ :</b><u>\n\nɪᴅ : <code>{self.id}</code>\nɴᴀᴍᴇ : {self.name}\nᴜsᴇʀɴᴀᴍᴇ : @{self.username}",parse_mode=enums.ParseMode.HTML
             )
         except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -38,7 +38,7 @@ class Bot(Client):
             )
             exit()
 
-        a = await self.get_chat_member(config.LOG_CHANNEL, self.id)
+        a = await self.get_chat_member(config.LOG_GROUP, self.id)
         if a.status != enums.ChatMemberStatus.ADMINISTRATOR:
             LOGGER(__name__).error(
                 "Please promote your bot as an admin in your log group/channel."

@@ -38,6 +38,11 @@
       "value": "",
       "required": true
     },
+    "LOG_GROUP": {
+      "description": "GROUP ID for notifications from bot to started bot or not",
+      "value": "",
+      "required": true
+    },
     "SESSION": {
       "description": "The Pyrogram Session For Assistant Bot For arching messages",
       "value": "",
