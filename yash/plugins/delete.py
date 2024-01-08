@@ -50,12 +50,12 @@ async def run_check_plan():
            
            
 @app.on_message(filters.command("buy")) 
-async def buy_handle(_, m):
+async def buy_handle(_, message):
   BUTTON = InlineKeyboardMarkup([[
   InlineKeyboardButton(text="USD PRICE",callback_data="usd_p"),
   InlineKeyboardButton(text="INR PRICE",callback_data="inr_p")
   ]])
-  await m.reply(text="All The Available Plans",reply_markup=BUTTON)
+  await message.reply(text="All The Available Plans",reply_markup=BUTTON)
   
 @app.on_callback_query()
 async def cb_help(_, callback_query: CallbackQuery):
