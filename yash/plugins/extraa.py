@@ -16,7 +16,8 @@ async def info_handle(_, m):
     dexa = await get_group(chat_id)
     plan = dexa["plan"]
     await asyncio.sleep(1)
-    await m.edit("founded subscription⌛")
+    if not plan:
+        await m.edit("you haven't any subscription⌛")
     name = m.from_user.mention
     if plan:
         await asyncio.sleep(1)
