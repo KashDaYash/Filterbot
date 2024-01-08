@@ -37,13 +37,17 @@ async def search_messages(chat_id, query):
 
         for msg in messages:
             if msg.caption or msg.text:
-                name = (msg.text or msg.caption).split("\n")[0]
-                result_entry = f"{name}\n {msg.link}\n\n"
-                results += result_entry
+                full_sentence = msg.text or msg.caption
+                if query.lower() in full_sentence.lower():
+                    name = full_sentence.split("\n")[0]
+                    result_entry = f"{name}\n {msg.link}\n\n"
+                    results += result_entry
+
+                    if len(results) >= 8:
+                        break
 
         cache[cache_key] = results
         return results
-
     except Exception as e:
         print(f"Error searching messages: {str(e)}")
         return ""
@@ -71,48 +75,32 @@ async def search_channel_chunk(channels, query):
 async def search(app, message):
     star = time()
     f_sub = await force_sub(app, message)
-    
     if f_sub == False:
         return
-
     veri = await get_group(message.chat.id)
     verified = veri["verified"]
-
     if verified == False:
         return
-
     channels = veri['channels']
-
     if not channels:
         return
-
     if message.text.startswith("/"):
         return
-
     query = await clean_query(message.text)
     query_words = query.split()
     max_results = 6
     results = []
     added_results = set()
 
-    # Divide channels into chunks (adjust chunk size as needed)
     chunk_size = 5
     channel_chunks = [channels[i:i + chunk_size] for i in range(0, len(channels), chunk_size)]
-
-    # Create a list to store all tasks
     tasks = []
 
     for chunk in channel_chunks:
-        # Append each search task to the list
         tasks.append(search_channel_chunk(chunk, query))
-
-    # Gather all tasks asynchronously
     chunked_results = await asyncio.gather(*tasks)
-
-    # Flatten the list of lists
     chunked_results = [result for chunk_results in chunked_results for result in chunk_results]
 
-    # Deduplicate and limit results
     for result in chunked_results:
         if result and result not in added_results:
             added_results.add(result)
@@ -125,8 +113,8 @@ async def search(app, message):
         end = time()
         time_elapsed = end - star
         combined_results = "".join(results)
-        msg = await message.reply(f"*Here are the results* 👇\n{combined_results} Result Searched in {time_elapsed:.2f} sec", disable_web_page_preview=True)
-        _time = int(time()) + (5 * 60)
+        msg = await message.reply(f"Here are the results 👇 \n{combined_results} Result Searched in {time_elapsed:.2f} sec", disable_web_page_preview=True)
+        _time = int(time()) + (1 * 60)
 
         try:
             message_id = msg.id
@@ -137,6 +125,6 @@ async def search(app, message):
         except FloodWait as e:
             print(e)
     else:
-        xx = await message.reply("No Results Found 🔎")
+        xx = await message.reply("No Results Found 🔍")
         await asyncio.sleep(20)
         await xx.delete()
