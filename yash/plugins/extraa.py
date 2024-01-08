@@ -17,7 +17,7 @@ async def info_handle(app: Client, message: Message):
     chat = message.chat
     if chat.type == enums.ChatType.PRIVATE:
         return await message.reply("Please Use In Group Chat")
-    await message.reply("checking your subscription⌛")
+    msg = await message.reply("checking your subscription⌛")
     dexa = await get_group(chat.id)
     plan = dexa["plan"]
     await asyncio.sleep(1)
@@ -25,11 +25,11 @@ async def info_handle(app: Client, message: Message):
     if not plan:
         BUTTON = InlineKeyboardMarkup([[
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
-        await message.edit_reply_markup(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
+        await msg.edit_reply_markup(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
     else:
         await asyncio.sleep(1)
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
-        await message.edit(f"Your Subscription till {stamp} ⏳")
+        await msg.edit(f"Your Subscription till {stamp} ⏳")
   
 @app.on_message(filters.command('leave') & filters.private &  filters.chat(OWNER_ID))
 async def leave_a_chat(app, message):
