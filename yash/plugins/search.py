@@ -50,6 +50,7 @@ async def search_messages(chat_id, query):
             cache[cache_key] = results
             return results
         else:
+            print(f"No results found for the query: {query}")
             return f"No results found for the query: {query}"
 
     except Exception as e:
