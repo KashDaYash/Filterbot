@@ -20,13 +20,14 @@ async def clean_query(query):
     return " ".join(cleaned_words)
 
 
-@app.on_message(filters.text & filters.group & filters.incoming)
+@app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & filters.bot)
 async def search(bot, message):
     start_time = time.time()
     f_sub = await force_sub(bot, message)
     if f_sub == False:
         return
     data = await get_group(message.chat.id)
+    LOGGER("umm").info("hua kuch")
     if not data:
         return
     channels = data["channels"]
@@ -37,7 +38,7 @@ async def search(bot, message):
     query = await clean_query(message.text)
     head = "<u>Here are the results 👇</u>\n\n"
     results = ""
-    LOGGER("umm").info("hua kuch")
+    
     try:
         for channel in channels:
             async for msg in yk.search_messages(chat_id=channel, query=query):
