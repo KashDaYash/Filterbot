@@ -40,7 +40,7 @@ async def search_messages_in_channels(channels, query):
         
         results.append(channel_results)
     
-    return "".join(results)
+    return "".join(results[:8])  # Limit to the first 8 results
 
 @app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & ~filters.bot & ~filters.command(cmd))
 async def search(bot, message):
@@ -63,15 +63,6 @@ async def search(bot, message):
     try:
         # Combine both complete query and split queries search in parallel
         results += await search_messages_in_channels([channels[0]], query)
-        
-        # If less than 8 results, split the query and search in parallel
-        if results.count("<b><i>") < 8:
-            split_queries = query.split()
-            split_results = await asyncio.gather(*(search_messages_in_channels([channels[0]], split_query) for split_query in split_queries))
-            results += "".join(split_results)
-        
-        if results.count("<b><i>") >= 8:
-            results = results[:8 * ("<b><i>".__len__())]  # Truncate to keep only the first 8 results
         
         if not results:
             query_encoded = urllib.parse.quote_plus(query)
