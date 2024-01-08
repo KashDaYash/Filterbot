@@ -38,7 +38,7 @@ async def connect(app, message):
     except Exception as e:
         if "The user is already a participant" in str(e):
             pass
-       else:
+        else:
             text = f"❌ Error: `{str(e)}`\nMake sure I'm admin in that channel & this group with all permissions and @{(user.username or user.mention)} is not banned there"
             return await m.edit(text)
     await update_group(message.chat.id, {"channels":channels})
