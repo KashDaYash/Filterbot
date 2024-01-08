@@ -113,7 +113,7 @@ async def search(app, message):
         end = time()
         time_elapsed = end - star
         combined_results = "".join(results)
-        msg = await message.reply(f"Here are the results 👇 \n{combined_results} Result Searched in {time_elapsed:.2f} sec", disable_web_page_preview=True)
+        msg = await message.reply(f"**Here are the results \n{combined_results}** Result Searched in {time_elapsed:.2f} sec", disable_web_page_preview=True, parse_mode=enums.ParseMode.MARKDOWN)
         _time = int(time()) + (1 * 60)
 
         try:
