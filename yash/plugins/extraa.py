@@ -25,7 +25,7 @@ async def info_handle(app: Client, message: Message):
     if not plan:
         BUTTON = InlineKeyboardMarkup([[
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
-        await msg.edit_reply_markup(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
+        await msg.edit_text(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
     else:
         await asyncio.sleep(1)
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
