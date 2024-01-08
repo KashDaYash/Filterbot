@@ -15,9 +15,10 @@ async def info_handle(_, m):
     id = m.from_user.id 
     dexa = await get_group(chat_id)
     plan = dexa["plan"]
+    LOGGER("plan get").info("Plan Mil Gya")
     name = m.from_user.mention
+    await m.reply(f"Aapka name {name}\nApka Plan {plan}")
     if plan:
-        LOGGER("plan get").info("Plan Mil Gya")
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
         await m.reply(f"Your Subscription till {stamp}")
         return 
