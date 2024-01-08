@@ -2,7 +2,7 @@ from yash import app
 from yash.core.db import *
 from config import OWNER_ID
 from pyrogram import *
-from pyrogramessage.types import *
+from pyrogram.types import *
 import time 
 import os
 from yash.logging import LOGGER 
