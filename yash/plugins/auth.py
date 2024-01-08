@@ -22,7 +22,7 @@ async def chat_id_check(app, message):
             await message.reply(str(e))
   
 @app.on_message(filters.command("auth") & filters.private & filters.user(OWNER_ID))
-async def auth_handle(app, m: Message):
+async def auth_handle(app, message: Message):
     if len(message.command) == 1 or len(message.command) == 2:
         await message.reply("Please Provide Group ID And Time Period like /auth <Group ID> <Time>", parse_mode=enums.ParseMode.MARKDOWN)
         return 
