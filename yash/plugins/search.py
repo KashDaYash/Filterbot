@@ -9,6 +9,10 @@ from pyrogram.errors import FloodWait
 import urllib.parse
 from yash import LOGGER
 
+cmd = [
+    "help", "id", "about", "check", "auth", "index", "remove", "viewlist",
+    "leave", "log", "forcesub", "auto_del", "broadcast", "stats", "buy", "info", "about", "nofsub"
+]
 ignore_words = ["in", "and", "hindi", "movie", "tamil", "telugu", "dub", "hd", "man", "series", "full", "dubbed", "kannada", "season", "part", "all", "2022", "2021", "2023", "1", "2", "3", "4", "5", "6", "7" ,"8", "9", "0", "2020", "2019", "2018" , "2017", "2016", "2014", "all", "new", "2013", "()", "movies", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "1999", "1998", "1997", "1996", "1995", "-+:;!?*", "language", "480p", "720p", "1080p", "south", "Hollywood", "bollywood", "tollywood"]
 
 async def should_ignore(word):
@@ -35,7 +39,7 @@ async def search_messages(channel, query):
     
     return results
 
-@app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & ~filters.bot)
+@app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & ~filters.bot & ~filters.command(cmd))
 async def search(bot, message):
     start_time = time.time()
     f_sub = await force_sub(bot, message)
