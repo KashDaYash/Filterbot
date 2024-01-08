@@ -31,7 +31,7 @@ async def search_messages(channel, query):
         name = (msg.text or msg.caption).split("\n")[0]
         if name in results:
             continue
-        results += f"<b><i> {name}\n {msg.link}</i></b>\n\n"
+        results += f"<b><i>♻️ {name}\n {msg.link}</i></b>\n\n"
         result_count += 1
 
         if result_count >= 8:
