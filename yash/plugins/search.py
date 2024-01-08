@@ -46,8 +46,12 @@ async def search_messages(chat_id, query):
                     if len(results) >= 8:
                         break
 
-        cache[cache_key] = results
-        return results
+        if results:
+            cache[cache_key] = results
+            return results
+        else:
+            return f"No results found for the query: {query}"
+
     except Exception as e:
         print(f"Error searching messages: {str(e)}")
         return ""
@@ -90,7 +94,7 @@ async def search(app, message):
         return
     query = await clean_query(message.text)
     query_words = query.split()
-    max_results = 6
+    max_results = 8
     results = []
     added_results = set()
 
