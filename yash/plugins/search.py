@@ -79,7 +79,7 @@ async def search(app, message):
         return
     veri = await get_group(message.chat.id)
     verified = veri["verified"]
-    if verified == False:
+    if not verified:
         return
     channels = veri['channels']
     if not channels:
