@@ -17,6 +17,7 @@ async def info_handle(_, m):
     plan = dexa["plan"]
     name = m.from_user.mention
     if plan:
+        LOGGER("plan get").info("Plan Mil Gya")
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
         await m.reply(f"Your Subscription till {stamp}")
         return 
