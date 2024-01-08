@@ -16,11 +16,10 @@ async def info_handle(_, m):
     dexa = await get_group(chat_id)
     plan = dexa["plan"]
     name = m.from_user.mention
-    await m.reply(f"{plan} and {name}")
     if plan:
-        LOGGER("plan get").info("plan get huh !!")
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
         await m.reply(f"Your Subscription till {stamp}")
+        return 
     
     else:
         BUTTON = InlineKeyboardMarkup([[
