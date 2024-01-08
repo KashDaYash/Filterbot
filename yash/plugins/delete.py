@@ -61,7 +61,7 @@ async def buy_handle(_, message):
 async def cb_help(_, callback_query: CallbackQuery):
   data = callback_query.data
   PLAN_USD = '''These are the prices in USD:\n\n2 USD - per Month\n6 USD - per 6 Months\n10 USD - per Year\n\nClick on the Buy button to contact the owner'''
-  PLAN_INR = '''These are the prices in INR:\n\n100 INR - per Month\n400 INR - per 6 Months\n800 INR - per Year\n\nClick on the Buy button to contact the owner'''
+  PLAN_INR = '''These are the prices in INR:\n\n50 INR - per Month\n300 INR - per 6 Months\n600 INR - per Year\n\nClick on the Buy button to contact the owner'''
   BTN_1 = InlineKeyboardMarkup([
         [
             InlineKeyboardButton(text="Buy", url=f"t.me/{OWNER}"),
