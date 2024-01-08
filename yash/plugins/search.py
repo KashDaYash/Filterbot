@@ -25,7 +25,10 @@ async def search(bot, message):
     f_sub = await force_sub(bot, message)
     if f_sub == False:
         return
-    channels = (await get_group(message.chat.id))["channels"]
+    data = await get_group(message.chat.id)
+    if not data:
+        return
+    channels = data["channels"]
     if not channels:
         return
     if message.text.startswith("/"):
@@ -35,7 +38,7 @@ async def search(bot, message):
     results = ""
     try:
         for channel in channels:
-            async for msg in User.search_messages(chat_id=channel, query=query):
+            async for msg in yk.search_messages(chat_id=channel, query=query):
                 name = (msg.text or msg.caption).split("\n")[0]
                 if name in results:
                     continue
@@ -43,23 +46,17 @@ async def search(bot, message):
 
         if not results:
             query_encoded = urllib.parse.quote_plus(query)
-            no_results_message = f"No Results Found For <b>{query}</b>\n\n"
-            google_url = f"https://www.google.com/search?q={query_encoded}+movie"
-            release_date_url = f"https://www.google.com/search?q={query_encoded}+release+date"
-            markup = InlineKeyboardMarkup([
-                [InlineKeyboardButton("Check Spelling on Google 🔍", url=google_url)],
-                [InlineKeyboardButton("Check Release Date on Google 📅", url=release_date_url)]
-            ])
+            no_results_message = f"No Results Found For <b>{query}</b>\n"
             msg = await message.reply_text(text=no_results_message, disable_web_page_preview=True, reply_markup=markup, parse_mode=enums.ParseMode.HTML)
-            _time = int(time()) + (2 * 60)
-            await save_dlt_message(msg, _time)
+            await asyncio.sleep(5)
+            await msg.delete()
             return
 
         elapsed_time = time.time() - start_time
         footer = f"Searched in {elapsed_time:.2f} sec." # Add the duration to the footer
         msg = await message.reply_text(text=head + results + footer, disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML)
-        _time = int(time()) + (120 * 60)
-        await save_dlt_message(msg, _time)
+        _time = int(time()) + (2 * 60)
+        await save_dlt_message(message.chat.id, _time, msg.id)
     except:
         pass
 
