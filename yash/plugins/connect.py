@@ -110,7 +110,7 @@ async def connections(app, message):
             f_title = f_chat.title
             f_link  = f_chat.invite_link
             text += f"\nFSub: [{f_title}]({f_link})"
-       except Exception as e:
+        except Exception as e:
             await message.reply(f"❌ Error in FSub (`{f_sub}`)\n`{e}`",parse_mode=enums.ParseMode.MARKDOWN)
    
     await message.reply(text=text, disable_web_page_preview=True)
