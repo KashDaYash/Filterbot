@@ -24,12 +24,12 @@ async def clean_query(query):
 
 @app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & ~filters.bot)
 async def search(bot, message):
-    LOGGER("umm").info("hua kuch")
     start_time = time.time()
     f_sub = await force_sub(bot, message)
     if f_sub == False:
         return
     data = await get_group(message.chat.id)
+    LOGGER("umm").info("hua kuch")
     if not data:
         return
     channels = data["channels"]
