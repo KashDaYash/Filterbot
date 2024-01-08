@@ -24,24 +24,23 @@ async def clean_query(query):
     return " ".join(cleaned_words)
 
 async def search_messages_in_channels(channels, query):
-    results = await asyncio.gather(*(search_messages(channel, query) for channel in channels))
+    results = []
+    for channel in channels:
+        result_count = 0
+        channel_results = ""
+        async for msg in yk.search_messages(chat_id=channel, query=query):
+            name = (msg.text or msg.caption).split("\n")[0]
+            if name in channel_results:
+                continue
+            channel_results += f"<b><i>♻️ {name}\n {msg.link}</i></b>\n\n"
+            result_count += 1
+
+            if result_count >= 8:
+                break  # Break the loop if 8 results are reached
+        
+        results.append(channel_results)
+    
     return "".join(results)
-
-async def search_messages(channel, query):
-    result_count = 0
-    results = ""
-    
-    async for msg in yk.search_messages(chat_id=channel, query=query):
-        name = (msg.text or msg.caption).split("\n")[0]
-        if name in results:
-            continue
-        results += f"<b><i>♻️ {name}\n {msg.link}</i></b>\n\n"
-        result_count += 1
-
-        if result_count >= 8:
-            break
-    
-    return results
 
 @app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & ~filters.bot & ~filters.command(cmd))
 async def search(bot, message):
@@ -60,8 +59,12 @@ async def search(bot, message):
     query = await clean_query(message.text)
     head = "<b>Here are the results</b>\n\n"
     results = ""
+    
     try:
+        # Combine both complete query and split queries search in parallel
         results += await search_messages_in_channels([channels[0]], query)
+        
+        # If less than 8 results, split the query and search in parallel
         if results.count("<b><i>") < 8:
             split_queries = query.split()
             split_results = await asyncio.gather(*(search_messages_in_channels([channels[0]], split_query) for split_query in split_queries))
