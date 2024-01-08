@@ -95,6 +95,8 @@ async def delete_all_dlt_data(_time):
 
 async def force_sub(app, message):
     group = await get_group(message.chat.id)
+    if not group:
+        return
     f_sub = group["f_sub"]
     admin = group["user_id"]
     if f_sub==False:
