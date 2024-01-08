@@ -22,7 +22,7 @@ async def clean_query(query):
     return " ".join(cleaned_words)
 
 
-@app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & filters.bot)
+@app.on_message(filters.text & filters.group & filters.incoming & ~filters.via_bot & ~filters.bot)
 async def search(bot, message):
     LOGGER("umm").info("hua kuch")
     start_time = time.time()
