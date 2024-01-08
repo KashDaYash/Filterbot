@@ -12,21 +12,22 @@ async def info_handle(_, m):
     chat_id = m.chat.id
     if m.chat.type == enums.ChatType.PRIVATE:
         return await m.reply("Please Use In Group Chat")
-    id = m.from_user.id 
+    await m.reply("checking your subscription⌛")
     dexa = await get_group(chat_id)
     plan = dexa["plan"]
-    LOGGER("plan get").info("Plan Mil Gya")
+    await asyncio.sleep(1)
+    await m.edit("founded subscription⌛")
     name = m.from_user.mention
-    await m.reply(f"Aapka name {name}\nApka Plan {plan}")
     if plan:
+        await asyncio.sleep(1)
         stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
-        await m.reply(f"Your Subscription till {stamp}")
+        await m.edit(f"Your Subscription till {stamp} ⏳")
         return 
     
     else:
         BUTTON = InlineKeyboardMarkup([[
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
-        await m.reply(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
+        await m.edit_reply_markup(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
   
 @app.on_message(filters.command('leave') & filters.private &  filters.chat(OWNER_ID))
 async def leave_a_chat(app, message):
