@@ -32,23 +32,23 @@ Auto_delete : use /autodel command to enable or disable
 
 @app.on_message(filters.command("help"))
 async def help_handler(app, m):
-  chat_id = m.chat.id
-  await m.reply(HELP_TEXT)
+    chat_id = m.chat.id
+    await m.reply(HELP_TEXT)
   
 @app.on_message(filters.command("id"))
 async def id_handle(app , m):
-  chat_id = m.chat.id
-  user = m.from_user
-  MSG = f"This Chat ID : `{chat_id}`\n"
-  if m.reply_to_message:
-    user_id = m.reply_to_message.from_user.id
-    MSG += f"Reply User ID: `{user_id}`"
-  elif m.from_user:
-    user_id = m.from_user.id
-    MSG += f"Your ID: `{user_id}`"
-  else:
-    None
-  await m.reply(MSG)
+    chat_id = m.chat.id
+    user = m.from_user
+    MSG = f"This Chat ID : `{chat_id}`\n"
+    if m.reply_to_message:
+        user_id = m.reply_to_message.from_user.id
+        MSG += f"Reply User ID: `{user_id}`"
+    elif m.from_user:
+        user_id = m.from_user.id
+        MSG += f"Your ID: `{user_id}`"
+    else:
+        None
+    await m.reply(MSG)
 
 TEXT = f'''This bot is made by @{OWNER} A full time python developer
 
@@ -59,5 +59,5 @@ Want to make any kind of bot & tool dm @{OWNER}'''
 
 @app.on_message(filters.command("about"))
 async def about_handle(_,m):
-  chat_id = m.chat.id
-  await m.reply(TEXT)
+    chat_id = m.chat.id
+    await m.reply(TEXT)

@@ -7,6 +7,11 @@ import time
 import os
 from yash.logging import LOGGER 
 
+@app.on_message(filters.command("log"))
+async def logo_handle_bot(client: Client, message: Message):
+    chat_id = message.chat.id
+    await message.reply_document(document="log.txt")
+    return 
 @app.on_message(filters.command("info"))
 async def info_handle(app: Client, message: Message):
     chat = message.chat
