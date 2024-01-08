@@ -2,33 +2,29 @@ from yash import app
 from yash.core.db import *
 from config import OWNER_ID
 from pyrogram import *
-from pyrogram.types import *
+from pyrogramessage.types import *
 import time 
 import os
 from yash.logging import LOGGER 
 
 @app.on_message(filters.command("info"))
-async def info_handle(_, m):
-    chat_id = m.chat.id
-    if m.chat.type == enums.ChatType.PRIVATE:
-        return await m.reply("Please Use In Group Chat")
-    await m.reply("checking your subscription⌛")
-    dexa = await get_group(chat_id)
+async def info_handle(app: Client, message: Message):
+    chat = message.chat
+    if chat.type == enums.ChatType.PRIVATE:
+        return await message.reply("Please Use In Group Chat")
+    await message.reply("checking your subscription⌛")
+    dexa = await get_group(chat.id)
     plan = dexa["plan"]
     await asyncio.sleep(1)
+    name = message.from_user.mention
     if not plan:
-        await m.edit("you haven't any subscription⌛")
-    name = m.from_user.mention
-    if plan:
-        await asyncio.sleep(1)
-        stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
-        await m.edit(f"Your Subscription till {stamp} ⏳")
-        return 
-    
-    else:
         BUTTON = InlineKeyboardMarkup([[
             InlineKeyboardButton("Buy A Plan", user_id=OWNER_ID)]])
-        await m.edit_reply_markup(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
+        await message.edit_reply_markup(text=f"Hey {name} You haven't a Subscription ",reply_markup=BUTTON)
+    else:
+        await asyncio.sleep(1)
+        stamp = time.strftime("%Y-%m-%d", time.localtime(int(plan)))
+        await message.edit(f"Your Subscription till {stamp} ⏳")
   
 @app.on_message(filters.command('leave') & filters.private &  filters.chat(OWNER_ID))
 async def leave_a_chat(app, message):
